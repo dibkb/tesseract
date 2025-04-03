@@ -11,6 +11,7 @@ import {
 import Preview from "@/components/editor/preview";
 import { useQueryState } from "nuqs";
 import { Tab } from "@/constants/types/tabs";
+import { HtmlSelect } from "@/components/buttons/editor-select";
 export default function Home() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
@@ -26,11 +27,19 @@ export default function Home() {
             <div>Hello</div>
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={75}>
-            {tab === "html" && <Html />}
-            {tab === "css" && <Css />}
-            {tab === "javascript" && <Javascript />}
-            {tab === "preview" && <Preview />}
+          <ResizablePanel defaultSize={75} className="px-6 pt-2">
+            <main className="flex gap-3 mb-4">
+              <HtmlSelect
+                isActive={tab === "html"}
+                onClick={() => setTab("html")}
+              />
+            </main>
+            <section className="h-full">
+              {tab === "html" && <Html />}
+              {tab === "css" && <Css />}
+              {tab === "javascript" && <Javascript />}
+              {tab === "preview" && <Preview />}
+            </section>
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
