@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
   const { setTheme, theme } = useTheme();
   return (
-    <section className="flex items-center justify-between border-b border-dashed border-border">
-      <div className="flex items-center justify-between gap-2 py-2 container mx-auto">
+    <section className="flex items-center justify-between border-b border-dashed border-border h-12">
+      <div className="flex items-center justify-between gap-2 container mx-auto">
         <Link
           href="/"
           className={cn(
