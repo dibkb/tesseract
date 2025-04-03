@@ -1,11 +1,11 @@
 "use client";
+import Javascript from "@/components/editor/javascript";
 import Navbar from "@/components/navbar";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Editor } from "@monaco-editor/react";
 
 export default function Home() {
   return (
@@ -18,12 +18,7 @@ export default function Home() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75}>
-            <Editor
-              height="100%"
-              defaultLanguage="javascript"
-              defaultValue="// some comment"
-            />
-            ;
+            <Javascript />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
