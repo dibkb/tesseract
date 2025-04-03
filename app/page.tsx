@@ -11,7 +11,12 @@ import {
 import Preview from "@/components/editor/preview";
 import { useQueryState } from "nuqs";
 import { Tab } from "@/constants/types/tabs";
-import { HtmlSelect } from "@/components/buttons/editor-select";
+import {
+  CssSelect,
+  HtmlSelect,
+  JavascriptSelect,
+  PreviewSelect,
+} from "@/components/buttons/editor-select";
 export default function Home() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
@@ -32,6 +37,18 @@ export default function Home() {
               <HtmlSelect
                 isActive={tab === "html"}
                 onClick={() => setTab("html")}
+              />
+              <CssSelect
+                isActive={tab === "css"}
+                onClick={() => setTab("css")}
+              />
+              <JavascriptSelect
+                isActive={tab === "javascript"}
+                onClick={() => setTab("javascript")}
+              />
+              <PreviewSelect
+                isActive={tab === "preview"}
+                onClick={() => setTab("preview")}
               />
             </main>
             <section className="h-full">
