@@ -1,4 +1,6 @@
 "use client";
+import Html from "@/components/editor/html";
+import Css from "@/components/editor/css";
 import Javascript from "@/components/editor/javascript";
 import Navbar from "@/components/navbar";
 import {
@@ -6,8 +8,15 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-
+import Preview from "@/components/editor/preview";
+import { useQueryState } from "nuqs";
+import { Tab } from "@/constants/types/tabs";
 export default function Home() {
+  const [tab, setTab] = useQueryState<Tab>("tab", {
+    defaultValue: "preview",
+    parse: (value) => value as Tab,
+    serialize: (value) => value as string,
+  });
   return (
     <main className="h-[calc(100vh-3rem)]">
       <Navbar />
@@ -18,7 +27,10 @@ export default function Home() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75}>
-            <Javascript />
+            {tab === "html" && <Html />}
+            {tab === "css" && <Css />}
+            {tab === "javascript" && <Javascript />}
+            {tab === "preview" && <Preview />}
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>

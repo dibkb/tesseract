@@ -2,16 +2,16 @@
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 
-const Javascript = () => {
+const Css = () => {
   const { theme } = useTheme();
   return (
     <Editor
       height="100%"
-      defaultLanguage="javascript"
-      defaultValue="// Tesseract welcomes you to the javascript editor! 🚀"
+      defaultLanguage="css"
+      defaultValue="// Tesseract welcomes you to the css editor! 🚀"
       theme={theme === "dark" ? "vs-dark" : "vs"}
     />
   );
 };
 
-export default Javascript;
+export default Css;
