@@ -15,8 +15,10 @@ import {
   CssSelect,
   HtmlSelect,
   JavascriptSelect,
+  LogsSelect,
   PreviewSelect,
 } from "@/components/buttons/editor-select";
+import FontChange from "@/components/editor/font-change";
 export default function Home() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
@@ -33,29 +35,37 @@ export default function Home() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75} className="px-6 pt-2">
-            <main className="flex gap-3 mb-4">
-              <HtmlSelect
-                isActive={tab === "html"}
-                onClick={() => setTab("html")}
-              />
-              <CssSelect
-                isActive={tab === "css"}
-                onClick={() => setTab("css")}
-              />
-              <JavascriptSelect
-                isActive={tab === "javascript"}
-                onClick={() => setTab("javascript")}
-              />
-              <PreviewSelect
-                isActive={tab === "preview"}
-                onClick={() => setTab("preview")}
-              />
-            </main>
+            <section className="flex items-center justify-between">
+              <main className="flex gap-3 mb-4">
+                <HtmlSelect
+                  isActive={tab === "html"}
+                  onClick={() => setTab("html")}
+                />
+                <CssSelect
+                  isActive={tab === "css"}
+                  onClick={() => setTab("css")}
+                />
+                <JavascriptSelect
+                  isActive={tab === "javascript"}
+                  onClick={() => setTab("javascript")}
+                />
+                <LogsSelect
+                  isActive={tab === "console"}
+                  onClick={() => setTab("console")}
+                />
+                <PreviewSelect
+                  isActive={tab === "preview"}
+                  onClick={() => setTab("preview")}
+                />
+              </main>
+              <FontChange />
+            </section>
             <section className="h-full">
               {tab === "html" && <Html />}
               {tab === "css" && <Css />}
               {tab === "javascript" && <Javascript />}
               {tab === "preview" && <Preview />}
+              {tab === "console" && <Preview console={true} />}
             </section>
           </ResizablePanel>
         </ResizablePanelGroup>

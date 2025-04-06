@@ -1,1 +1,1 @@
-export type Tab = "html" | "css" | "javascript" | "preview";
+export type Tab = "html" | "css" | "javascript" | "preview" | "console";

@@ -5,6 +5,7 @@ import {
   Csssvg,
   Htmlsvg,
   Javascriptsvg,
+  Logsvg,
   Previewsvg,
 } from "../svg/editor-buttons";
 
@@ -86,6 +87,19 @@ export const PreviewSelect = ({
   return (
     <EditorSelect svg={<Previewsvg />} isActive={isActive} onClick={onClick}>
       Preview
+    </EditorSelect>
+  );
+};
+export const LogsSelect = ({
+  isActive,
+  onClick,
+}: {
+  isActive: boolean;
+  onClick: () => void;
+}) => {
+  return (
+    <EditorSelect svg={<Logsvg />} isActive={isActive} onClick={onClick}>
+      console
     </EditorSelect>
   );
 };

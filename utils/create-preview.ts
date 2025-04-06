@@ -28,7 +28,7 @@ export const createDocument = ({
   js,
 }: Pick<ScriptsState, "html" | "css" | "js">) => `
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..800&display=swap');
