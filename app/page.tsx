@@ -19,7 +19,7 @@ import {
   PreviewSelect,
 } from "@/components/buttons/editor-select";
 import FontChange from "@/components/editor/font-change";
-import ManageSelection from "@/constants/selection";
+import ChatComponent from "@/components/chat/chat-component";
 export default function Home() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
@@ -32,15 +32,7 @@ export default function Home() {
       <div className="h-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25}>
-            <div>
-              <button
-                onClick={() =>
-                  console.log(ManageSelection.getInstance().getHtmlSelection())
-                }
-              >
-                Get Selected Lines
-              </button>
-            </div>
+            <ChatComponent />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75} className="px-6 pt-2">
