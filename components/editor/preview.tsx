@@ -27,7 +27,7 @@ const Preview = ({ console }: { console?: boolean }) => {
   if (console) {
     return (
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={75}>
+        <ResizablePanel defaultSize={25}>
           <iframe
             ref={iframeRef}
             className="w-full h-[calc(100vh-110px)] border-none rounded-md"
@@ -36,9 +36,10 @@ const Preview = ({ console }: { console?: boolean }) => {
             referrerPolicy="no-referrer"
             srcDoc={createDocument({ html, css, js })}
           />{" "}
+          a
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={25} className="px-6 pt-2">
+        <ResizablePanel defaultSize={75} className="px-6 pt-2">
           <Console />
         </ResizablePanel>
       </ResizablePanelGroup>
