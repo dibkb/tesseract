@@ -23,6 +23,7 @@ const Html = () => {
       options={{
         fontSize,
       }}
+      className="tesseract--editor"
     />
   );
 };

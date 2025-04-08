@@ -17,6 +17,7 @@ const Css = () => {
       options={{
         fontSize,
       }}
+      className="tesseract--editor"
     />
   );
 };

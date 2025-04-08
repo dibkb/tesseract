@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -114,11 +114,14 @@
 
 @layer base {
   * {
-    font-family: "Manrope", sans-serif;
     @apply border-border outline-ring/50;
   }
   body {
+    font-family: "Manrope", sans-serif;
     @apply bg-background text-foreground;
+  }
+  .tesseract--editor {
+    font-family: "Source Code Pro", monospace;
   }
 }
 

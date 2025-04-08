@@ -17,6 +17,7 @@ const Javascript = () => {
       options={{
         fontSize,
       }}
+      className="tesseract--editor"
     />
   );
 };
