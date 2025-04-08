@@ -22,7 +22,9 @@ import {
 import FontChange from "@/components/editor/font-change";
 import ChatComponent from "@/components/chat/chat-component";
 import ImagesTab from "@/components/editor/images-tab";
-export default function Home() {
+import { Suspense } from "react";
+
+function HomeContent() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
     parse: (value) => value as Tab,
@@ -79,5 +81,13 @@ export default function Home() {
         </ResizablePanelGroup>
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

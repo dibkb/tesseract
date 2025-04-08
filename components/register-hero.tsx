@@ -2,8 +2,10 @@
 import { useTheme } from "next-themes";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useIsClient } from "./hooks/use-is-client";
 // import { unsplashImages } from "@/constants/unsplash-images";
 const RegisterHero = () => {
+  const isClient = useIsClient();
   const theme = useTheme();
   const image = (
     <div
@@ -17,13 +19,16 @@ const RegisterHero = () => {
       )}
     />
   );
+  if (!isClient) return null;
   return image;
 };
 
 export default RegisterHero;
 
 export const RgisterOverlay = () => {
+  const isClient = useIsClient();
   const { theme } = useTheme();
+  if (!isClient) return null;
   return (
     <div className="inset-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[95%] w-[95%] object-cover rounded-lg z-50 p-8 flex items-center justify-center">
       <div className="flex flex-col">

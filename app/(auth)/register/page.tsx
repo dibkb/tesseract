@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-import { UserAuthForm } from "@/components/form/user-auth-form";
+import { UserAuthFormChildContent } from "@/components/form/user-auth-form";
 import RegisterHero, { RgisterOverlay } from "@/components/register-hero";
 
 export const metadata = {
@@ -38,7 +39,9 @@ export default function RegisterPage() {
               Enter your email below to create your account
             </p>
           </div>
-          <UserAuthForm />
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserAuthFormChildContent />
+          </Suspense>
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <Link

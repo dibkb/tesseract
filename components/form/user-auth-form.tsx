@@ -17,10 +17,21 @@ import { Icons } from "../icons";
 
 type FormData = z.infer<typeof userAuthSchema>;
 
-export function UserAuthForm({
+export const UserAuthForm = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <UserAuthFormChildContent className={className} {...props} />
+    </React.Suspense>
+  );
+};
+
+export const UserAuthFormChildContent = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
   const {
     register,
     handleSubmit,
@@ -106,10 +117,26 @@ export function UserAuthForm({
         {isGitHubLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
+          <Icons.google className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
+      </button>
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGitHubLoading(true);
+          signIn("github");
+        }}
+        disabled={isLoading || isGitHubLoading}
+      >
+        {isGitHubLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
         Github
       </button>
     </div>
   );
-}
+};
