@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 import { UserAuthForm } from "@/components/form/user-auth-form";
-import RegisterHero from "@/components/register-hero";
+import RegisterHero, { RgisterOverlay } from "@/components/register-hero";
 
 export const metadata = {
   title: "Create an account",
@@ -24,7 +24,7 @@ export default function RegisterPage() {
         Login
       </Link>
       <div className="relative h-full w-full overflow-hidden rounded-lg">
-        {/* <div className="inset-0 bg-black/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[95%] w-[95%] object-cover rounded-lg z-50" /> */}
+        <RgisterOverlay />
         <RegisterHero />
       </div>
       <div className="lg:p-8">
