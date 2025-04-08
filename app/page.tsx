@@ -2,7 +2,7 @@
 import Html from "@/components/editor/html";
 import Css from "@/components/editor/css";
 import Javascript from "@/components/editor/javascript";
-import Navbar from "@/components/navbar";
+// import Navbar from "@/components/navbar";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -31,7 +31,6 @@ export default function Home() {
 
   return (
     <main className="h-[calc(100vh-3rem)]">
-      <Navbar />
       <div className="h-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25}>

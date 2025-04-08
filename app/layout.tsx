@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { manrope } from "@/constants/fonts";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ScriptsStoreProvider } from "@/stores/scripts-provider";
+import Navbar from "@/components/navbar";
 export const metadata: Metadata = {
   title: "Tesseract",
   description: "Tesseract is a ai low code platform for building websites",
@@ -26,6 +27,8 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <Navbar />
+
               {children}
               <Toaster />
             </ThemeProvider>

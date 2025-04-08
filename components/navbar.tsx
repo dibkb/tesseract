@@ -14,9 +14,10 @@ const Navbar = () => {
           href="/"
           className={cn(
             inconsolata.className,
-            "font-bold tracking-tight text-neutral-900 dark:text-neutral-50"
+            "font-bold tracking-tight text-neutral-900 dark:text-neutral-50 flex items-center gap-2"
           )}
         >
+          <p>{"/--/--"}</p>
           tesseract
         </Link>
         <div className="flex items-center gap-2">

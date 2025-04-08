@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center">
+    <div className="container mx-auto flex h-full w-screen flex-col items-center justify-center">
       <Link
         href="/"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute left-4 top-4 md:left-8 md:top-8"
+          "absolute left-16 top-16 md:left-16 md:top-16"
         )}
       >
         <>
