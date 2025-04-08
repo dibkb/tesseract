@@ -24,7 +24,7 @@ export default function RegisterPage() {
       >
         Login
       </Link>
-      <div className="relative h-full w-full overflow-hidden rounded-lg">
+      <div className="hidden lg:block relative h-full w-full overflow-hidden rounded-lg">
         <RgisterOverlay />
         <RegisterHero />
       </div>
