@@ -14,11 +14,15 @@ const EditorSelect = ({
   svg,
   isActive = false,
   onClick,
+  logo = true,
+  className,
 }: {
   children: React.ReactNode;
   svg: React.ReactNode;
   isActive?: boolean;
   onClick: () => void;
+  logo?: boolean;
+  className?: string;
 }) => {
   return (
     <button
@@ -26,11 +30,12 @@ const EditorSelect = ({
         "flex items-center gap-2 rounded-md px-4 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer",
         {
           "bg-neutral-100 dark:bg-neutral-800": isActive,
-        }
+        },
+        className
       )}
       onClick={onClick}
     >
-      {svg}
+      {logo && svg}
       <span className="text-xs font-medium dark:text-neutral-400 text-neutral-600">
         {children}
       </span>
@@ -41,39 +46,75 @@ const EditorSelect = ({
 export const HtmlSelect = ({
   isActive,
   onClick,
+  text = "index.html",
+  logo = true,
+  className,
 }: {
   isActive: boolean;
   onClick: () => void;
+  text?: string;
+  logo?: boolean;
+  className?: string;
 }) => {
   return (
-    <EditorSelect svg={<Htmlsvg />} isActive={isActive} onClick={onClick}>
-      index.html
+    <EditorSelect
+      logo={logo}
+      svg={<Htmlsvg />}
+      isActive={isActive}
+      onClick={onClick}
+      className={className}
+    >
+      {text}
     </EditorSelect>
   );
 };
 export const CssSelect = ({
   isActive,
   onClick,
+  text = "styles.css",
+  logo = true,
+  className,
 }: {
   isActive: boolean;
   onClick: () => void;
+  text?: string;
+  logo?: boolean;
+  className?: string;
 }) => {
   return (
-    <EditorSelect svg={<Csssvg />} isActive={isActive} onClick={onClick}>
-      styles.css
+    <EditorSelect
+      logo={logo}
+      svg={<Csssvg />}
+      isActive={isActive}
+      onClick={onClick}
+      className={className}
+    >
+      {text}
     </EditorSelect>
   );
 };
 export const JavascriptSelect = ({
   isActive,
   onClick,
+  text = "script.js",
+  logo = true,
+  className,
 }: {
   isActive: boolean;
   onClick: () => void;
+  text?: string;
+  logo?: boolean;
+  className?: string;
 }) => {
   return (
-    <EditorSelect svg={<Javascriptsvg />} isActive={isActive} onClick={onClick}>
-      script.js
+    <EditorSelect
+      logo={logo}
+      svg={<Javascriptsvg />}
+      isActive={isActive}
+      onClick={onClick}
+      className={className}
+    >
+      {text}
     </EditorSelect>
   );
 };

@@ -2,7 +2,7 @@
 import { createJSONStorage } from "zustand/middleware";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
-
+import { Selection } from "../constants/types/selection";
 export type LogLevel =
   | "tesseract-log-log"
   | "tesseract-log-error"
@@ -23,6 +23,19 @@ export type ScriptsState = {
   fontSize: number;
 };
 
+export type ContextSelected =
+  | "html"
+  | "css"
+  | "js"
+  | "selectedHtml"
+  | "selectedCss"
+  | "selectedJs";
+const defaultSekection: Selection = {
+  startLine: 0,
+  endLine: 0,
+  lines: [],
+  text: "",
+};
 export type ScriptsActions = {
   setHtml: (html: string) => void;
   setCss: (css: string) => void;
@@ -32,6 +45,19 @@ export type ScriptsActions = {
   fontSize: number;
   increaseFontSize: () => void;
   decreaseFontSize: () => void;
+
+  // selection
+  htmlSelection: Selection;
+  cssSelection: Selection;
+  jsSelection: Selection;
+
+  // context
+  setHtmlSelection: (selection: Selection) => void;
+  setCssSelection: (selection: Selection) => void;
+  setJsSelection: (selection: Selection) => void;
+
+  contextSelected: ContextSelected[];
+  setContextSelected: (contextSelected: ContextSelected[]) => void;
 };
 
 export type ScriptsStore = ScriptsState & ScriptsActions;
@@ -62,6 +88,18 @@ export const createScriptsStore = (
           set((state) => ({ fontSize: state.fontSize + 1 })),
         decreaseFontSize: () =>
           set((state) => ({ fontSize: state.fontSize - 1 })),
+        htmlSelection: defaultSekection,
+        cssSelection: defaultSekection,
+        jsSelection: defaultSekection,
+        setHtmlSelection: (selection: Selection) =>
+          set({ htmlSelection: selection }),
+        setCssSelection: (selection: Selection) =>
+          set({ cssSelection: selection }),
+        setJsSelection: (selection: Selection) =>
+          set({ jsSelection: selection }),
+        contextSelected: [],
+        setContextSelected: (contextSelected: ContextSelected[]) =>
+          set({ contextSelected }),
       }),
       {
         name: "tesseract-scripts",

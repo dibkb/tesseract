@@ -26,6 +26,7 @@ export default function Home() {
     parse: (value) => value as Tab,
     serialize: (value) => value as string,
   });
+
   return (
     <main className="h-[calc(100vh-3rem)]">
       <Navbar />
