@@ -6,6 +6,8 @@ import { CssSelect } from "../buttons/editor-select";
 import { useScriptsStore } from "@/stores/scripts-provider";
 import ManageSelection from "@/constants/selection";
 import { ContextSelected } from "@/stores/scripts";
+import { selectedComponentsDisplay } from "@/constants/selected-components";
+
 const ChatComponent = () => {
   const [modal, setModal] = useState(false);
   const {
@@ -45,7 +47,6 @@ const ChatComponent = () => {
     setJsSelection(selection);
     selectionHandler("selectedJs");
   };
-
   const modalContent = (
     <div className="w-[200px] p-2 rounded-md text-sm gap-1 flex flex-col">
       <HtmlSelect
@@ -86,13 +87,23 @@ const ChatComponent = () => {
       <main className="h-full">
         <div className="absolute bottom-0 left-0 w-full p-2">
           {modal && modalContent}
-          <div className="py-2 flex items-center flex-wap">
+          <div className="py-2">
             <button
               onClick={() => setModal((prev) => !prev)}
               className="text-xs border px-4 py-[2px] rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
             >
               @ Add context
             </button>
+          </div>
+          <div className="py-2 flex items-center gap-2 flex-wrap">
+            {contextSelected.map((ele) => (
+              <button
+                key={ele}
+                className="text-xs border px-4 py-[2px] rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+              >
+                {selectedComponentsDisplay[ele]}
+              </button>
+            ))}
           </div>
           <form
             onSubmit={(e) => {
