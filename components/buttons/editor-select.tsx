@@ -8,6 +8,7 @@ import {
   Logsvg,
   Previewsvg,
 } from "../svg/editor-buttons";
+import { Upload } from "lucide-react";
 
 const EditorSelect = ({
   children,
@@ -141,6 +142,23 @@ export const LogsSelect = ({
   return (
     <EditorSelect svg={<Logsvg />} isActive={isActive} onClick={onClick}>
       console
+    </EditorSelect>
+  );
+};
+export const Imageupload = ({
+  isActive,
+  onClick,
+}: {
+  isActive: boolean;
+  onClick: () => void;
+}) => {
+  return (
+    <EditorSelect
+      svg={<Upload className="w-3 h-3" />}
+      isActive={isActive}
+      onClick={onClick}
+    >
+      Images
     </EditorSelect>
   );
 };

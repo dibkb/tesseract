@@ -7,13 +7,11 @@ import { useScriptsStore } from "@/stores/scripts-provider";
 import ManageSelection from "@/constants/selection";
 import { ContextSelected } from "@/stores/scripts";
 import { selectedComponentsDisplay } from "@/constants/selected-components";
+import { X } from "lucide-react";
 
 const ChatComponent = () => {
   const [modal, setModal] = useState(false);
   const {
-    htmlSelection,
-    cssSelection,
-    jsSelection,
     contextSelected,
     setContextSelected,
     setHtmlSelection,
@@ -99,9 +97,11 @@ const ChatComponent = () => {
             {contextSelected.map((ele) => (
               <button
                 key={ele}
-                className="text-xs border px-4 py-[2px] rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+                className="text-xs border text-neutral-500 px-4 py-[2px] rounded-sm transition-all duration-300 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 flex items-center gap-1"
+                onClick={() => selectionHandler(ele)}
               >
                 {selectedComponentsDisplay[ele]}
+                <X className="w-4 h-4" />
               </button>
             ))}
           </div>

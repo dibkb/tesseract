@@ -49,7 +49,7 @@ const Preview = ({ console }: { console?: boolean }) => {
       <iframe
         ref={iframeRef}
         className="w-full h-[calc(100vh-110px)] border-none rounded-md"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation allow-modals"
         title="Website Preview"
         referrerPolicy="no-referrer"
         srcDoc={createDocument({ html, css, js })}

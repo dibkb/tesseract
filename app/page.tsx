@@ -14,12 +14,14 @@ import { Tab } from "@/constants/types/tabs";
 import {
   CssSelect,
   HtmlSelect,
+  Imageupload,
   JavascriptSelect,
   LogsSelect,
   PreviewSelect,
 } from "@/components/buttons/editor-select";
 import FontChange from "@/components/editor/font-change";
 import ChatComponent from "@/components/chat/chat-component";
+import ImagesTab from "@/components/editor/images-tab";
 export default function Home() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
     defaultValue: "preview",
@@ -59,6 +61,10 @@ export default function Home() {
                   isActive={tab === "preview"}
                   onClick={() => setTab("preview")}
                 />
+                <Imageupload
+                  isActive={tab === "images"}
+                  onClick={() => setTab("images")}
+                />
               </main>
               <FontChange />
             </section>
@@ -68,6 +74,7 @@ export default function Home() {
               {tab === "javascript" && <Javascript />}
               {tab === "preview" && <Preview />}
               {tab === "console" && <Preview console={true} />}
+              {tab === "images" && <ImagesTab />}
             </section>
           </ResizablePanel>
         </ResizablePanelGroup>
