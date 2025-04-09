@@ -18,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${manrope.variable} antialiased`}>
+      <body
+        className={`${manrope.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <NuqsAdapter>
           <ScriptsStoreProvider>
             <ThemeProvider

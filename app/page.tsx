@@ -40,8 +40,8 @@ function HomeContent() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75} className="px-6 pt-2">
-            <section className="flex items-center justify-between">
-              <main className="flex gap-3 mb-4">
+            <section className="flex items-center justify-between mb-3 flex-wrap gap-y-2">
+              <main className="flex gap-3 flex-wrap">
                 <HtmlSelect
                   isActive={tab === "html"}
                   onClick={() => setTab("html")}
@@ -69,7 +69,7 @@ function HomeContent() {
               </main>
               <FontChange />
             </section>
-            <section className="h-full">
+            <section className="h-full overflow-scroll">
               {tab === "html" && <Html />}
               {tab === "css" && <Css />}
               {tab === "javascript" && <Javascript />}

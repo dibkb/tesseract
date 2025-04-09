@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "images.unsplash.com",
       },
+      {
+        hostname: "dibkb-tesseract-images.s3.ap-south-1.amazonaws.com",
+      },
     ],
   },
 };

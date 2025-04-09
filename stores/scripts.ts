@@ -58,6 +58,11 @@ export type ScriptsActions = {
 
   contextSelected: ContextSelected[];
   setContextSelected: (contextSelected: ContextSelected[]) => void;
+
+  // images
+  images: string[];
+  setImages: (images: string[]) => void;
+  addImage: (image: string) => void;
 };
 
 export type ScriptsStore = ScriptsState & ScriptsActions;
@@ -100,6 +105,11 @@ export const createScriptsStore = (
         contextSelected: [],
         setContextSelected: (contextSelected: ContextSelected[]) =>
           set({ contextSelected }),
+        // images
+        images: [],
+        setImages: (images: string[]) => set({ images }),
+        addImage: (image: string) =>
+          set((state) => ({ images: [...state.images, image] })),
       }),
       {
         name: "tesseract-scripts",
@@ -109,6 +119,7 @@ export const createScriptsStore = (
           css: state.css,
           js: state.js,
           logs: state.logs,
+          images: state.images,
         }),
       }
     )
