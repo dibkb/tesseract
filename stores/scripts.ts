@@ -3,6 +3,8 @@ import { createJSONStorage } from "zustand/middleware";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
 import { Selection } from "../constants/types/selection";
+import { useRef } from "react";
+import type { editor } from "monaco-types";
 export type LogLevel =
   | "tesseract-log-log"
   | "tesseract-log-error"
@@ -63,6 +65,11 @@ export type ScriptsActions = {
   images: string[];
   setImages: (images: string[]) => void;
   addImage: (image: string) => void;
+
+  // html editor
+  htmlEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  cssEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  jsEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
 };
 
 export type ScriptsStore = ScriptsState & ScriptsActions;
@@ -110,6 +117,10 @@ export const createScriptsStore = (
         setImages: (images: string[]) => set({ images }),
         addImage: (image: string) =>
           set((state) => ({ images: [...state.images, image] })),
+        // editors
+        htmlEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
+        cssEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
+        jsEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
       }),
       {
         name: "tesseract-scripts",

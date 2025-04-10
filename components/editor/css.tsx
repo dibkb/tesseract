@@ -2,12 +2,21 @@
 import { useTheme } from "next-themes";
 import { useScriptsStore } from "@/stores/scripts-provider";
 import { CodeiumEditor } from "@codeium/react-code-editor";
+import type { editor } from "monaco-types";
 
 const Css = () => {
   const { theme } = useTheme();
-  const { css, setCss, fontSize } = useScriptsStore((state) => state);
+  const { css, setCss, fontSize, cssEditorRef } = useScriptsStore(
+    (state) => state
+  );
+
+  function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
+    cssEditorRef.current = editor;
+  }
+
   return (
     <CodeiumEditor
+      onMount={handleEditorDidMount}
       height="100%"
       language="css"
       defaultValue="/* Welcome to the CSS editor! 🚀*/"

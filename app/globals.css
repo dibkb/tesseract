@@ -125,6 +125,32 @@
   }
 }
 
+.diff-highlight {
+  background-color: rgba(255, 255, 0, 0.2);
+  border-bottom: 2px wavy #ffd700;
+}
+
+.diff-original {
+  background-color: rgba(255, 255, 0, 0.1);
+  border-left: 3px solid #ffd700;
+}
+
+.diff-glyph-original {
+  background-color: #ffd700;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+/* Diff editor styles */
+.diff-removed {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+  text-decoration: line-through;
+}
+
+.diff-added {
+  background-color: rgba(0, 255, 0, 0.1) !important;
+}
+
 svg[aria-label="Codeium Logo"] {
   display: none;
 }
