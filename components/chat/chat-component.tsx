@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 import React, { useCallback, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
@@ -6,11 +7,12 @@ import { HtmlSelect, JavascriptSelect } from "../buttons/editor-select";
 import { CssSelect } from "../buttons/editor-select";
 import { useScriptsStore } from "@/stores/scripts-provider";
 import { ContextSelected } from "@/stores/scripts";
-import { selectedComponentsDisplay } from "@/constants/selected-components";
-import { X } from "lucide-react";
 import { experimental_useObject as useObject } from "@ai-sdk/react";
 import { outPutSchema } from "@/lib/ai-chat";
 import getSelectedLines from "@/lib/selection";
+import SelectedContext from "../editor/selected-context";
+import AiChatContent from "./ai-chat-content";
+// import pasteClipBoard from "@/utils/paste-clipboard";
 
 const ChatComponent = () => {
   const { object, submit, isLoading } = useObject({
@@ -19,6 +21,7 @@ const ChatComponent = () => {
   });
   const [modal, setModal] = useState(false);
   const {
+    htmlSelection,
     htmlEditorRef,
     cssEditorRef,
     jsEditorRef,
@@ -66,7 +69,7 @@ const ChatComponent = () => {
   const [text, setText] = useState("");
   const modalContent = (
     <div className="w-[200px] p-2 rounded-md text-sm gap-1 flex flex-col">
-      <HtmlSelect
+      {/* <HtmlSelect
         isActive={contextSelected.includes("html")}
         onClick={() => selectionHandler("html")}
         text={"index.html (all)"}
@@ -80,7 +83,7 @@ const ChatComponent = () => {
         isActive={contextSelected.includes("js")}
         onClick={() => selectionHandler("js")}
         text={"script.js (all)"}
-      />
+      /> */}
       {htmlEditorRef.current && (
         <HtmlSelect
           isActive={contextSelected.includes("selectedHtml")}
@@ -108,7 +111,8 @@ const ChatComponent = () => {
   return (
     <div className="h-full relative p-2 flex flex-col">
       <main className="flex-1 overflow-y-auto mb-[180px]">
-        <div className="space-y-4 p-1"></div>
+        {/* AI content */}
+        <AiChatContent object={object} />
       </main>
 
       <div className="absolute bottom-0 left-0 w-full p-2 bg-background/80 backdrop-blur-sm">
@@ -122,33 +126,33 @@ const ChatComponent = () => {
           </button>
         </div>
         <div className="py-2 flex items-center gap-2 flex-wrap">
-          {contextSelected.map((ele) => (
-            <button
-              key={ele}
-              className="text-xs border text-neutral-500 px-4 py-[2px] rounded-sm transition-all duration-300 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 flex items-center gap-1"
-              onClick={() => selectionHandler(ele)}
-            >
-              {selectedComponentsDisplay[ele]}
-              <X className="w-4 h-4" />
-            </button>
-          ))}
+          <SelectedContext
+            contextSelected={contextSelected}
+            selectionHandler={selectionHandler}
+          />
         </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             submit({
-              html: text,
-              userRequest: "Fix this code",
+              html: htmlSelection.text,
+              userRequest: text.trim(),
             });
           }}
           className="w-full h-full flex flex-col gap-2 items-center justify-center rounded-lg"
         >
           <Textarea
-            className="w-full h-full max-h-44 outline-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none"
+            className="w-full h-full max-h-44 outline-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 resize-none font-semibold"
             placeholder="Plan search and build anything..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            // disabled={isLoading}
+            disabled={isLoading}
+            onPaste={(e) => {
+              e.preventDefault();
+              toast("Pasting not allowed", {
+                description: "Please select the code and add it to the context",
+              });
+            }}
           />
           <Button
             type="submit"
