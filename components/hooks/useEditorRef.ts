@@ -24,11 +24,9 @@ export const useEditorRef = () => {
     const endLine = selection.endLineNumber;
 
     const selectedText = model.getValueInRange(selection);
-    const lines = selectedText.split("\n");
     return {
       startLine,
       endLine,
-      lines,
       text: selectedText,
     };
   }

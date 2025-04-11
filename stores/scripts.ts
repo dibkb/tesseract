@@ -3,14 +3,15 @@ import { createJSONStorage } from "zustand/middleware";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
 import { Selection } from "../constants/types/selection";
-import { useRef } from "react";
 import type { editor } from "monaco-types";
+
 export type LogLevel =
   | "tesseract-log-log"
   | "tesseract-log-error"
   | "tesseract-log-warn"
   | "tesseract-log-info"
   | "tesseract-log-debug";
+
 type Log = {
   level: LogLevel;
   data: string[];
@@ -22,7 +23,12 @@ export type ScriptsState = {
   css: string;
   js: string;
   logs: Log[];
+  images: string[];
+
   fontSize: number;
+  htmlEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  cssEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  jsEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
 };
 
 export type ContextSelected =
@@ -32,12 +38,13 @@ export type ContextSelected =
   | "selectedHtml"
   | "selectedCss"
   | "selectedJs";
+
 const defaultSekection: Selection = {
   startLine: 0,
   endLine: 0,
-  lines: [],
   text: "",
 };
+
 export type ScriptsActions = {
   setHtml: (html: string) => void;
   setCss: (css: string) => void;
@@ -62,14 +69,12 @@ export type ScriptsActions = {
   setContextSelected: (contextSelected: ContextSelected[]) => void;
 
   // images
-  images: string[];
   setImages: (images: string[]) => void;
   addImage: (image: string) => void;
 
-  // html editor
-  htmlEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
-  cssEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
-  jsEditorRef: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  setHtmlEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
+  setCssEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
+  setJsEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
 };
 
 export type ScriptsStore = ScriptsState & ScriptsActions;
@@ -79,7 +84,11 @@ export const defaultInitState: ScriptsState = {
   css: "",
   js: "",
   logs: [],
+  images: [],
   fontSize: 14,
+  htmlEditorRef: { current: null },
+  cssEditorRef: { current: null },
+  jsEditorRef: { current: null },
 };
 
 export const createScriptsStore = (
@@ -117,10 +126,13 @@ export const createScriptsStore = (
         setImages: (images: string[]) => set({ images }),
         addImage: (image: string) =>
           set((state) => ({ images: [...state.images, image] })),
-        // editors
-        htmlEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
-        cssEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
-        jsEditorRef: useRef<editor.IStandaloneCodeEditor | null>(null),
+
+        setHtmlEditorRef: (editor: editor.IStandaloneCodeEditor) =>
+          set((state) => ({ ...state, htmlEditorRef: { current: editor } })),
+        setCssEditorRef: (editor: editor.IStandaloneCodeEditor) =>
+          set((state) => ({ ...state, cssEditorRef: { current: editor } })),
+        setJsEditorRef: (editor: editor.IStandaloneCodeEditor) =>
+          set((state) => ({ ...state, jsEditorRef: { current: editor } })),
       }),
       {
         name: "tesseract-scripts",
