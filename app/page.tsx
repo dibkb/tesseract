@@ -1,85 +1,38 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import Html from "@/components/editor/html";
-import Css from "@/components/editor/css";
-import Javascript from "@/components/editor/javascript";
-// import Navbar from "@/components/navbar";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import Preview from "@/components/editor/preview";
-import { useQueryState } from "nuqs";
-import { Tab } from "@/constants/types/tabs";
-import {
-  CssSelect,
-  HtmlSelect,
-  Imageupload,
-  JavascriptSelect,
-  LogsSelect,
-  PreviewSelect,
-} from "@/components/buttons/editor-select";
-import FontChange from "@/components/editor/font-change";
-import ChatComponent from "@/components/chat/chat-component";
-import ImagesTab from "@/components/editor/images-tab";
-import { Suspense } from "react";
-
+import ImageUpload from "@/components/image-uplaod";
+import { Button } from "@/components/ui/button";
+import { Suspense, useState } from "react";
 function HomeContent() {
-  const [tab, setTab] = useQueryState<Tab>("tab", {
-    defaultValue: "preview",
-    parse: (value) => value as Tab,
-    serialize: (value) => value as string,
-  });
-
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const handleUploadComplete = (url: string) => {
+    setImageUrl(url);
+  };
   return (
     <main className="h-[calc(100vh-3rem)]">
-      <div className="h-full">
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25}>
-            <ChatComponent />
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={75} className="px-6 pt-2">
-            <section className="flex items-center justify-between mb-3 flex-wrap gap-y-2">
-              <main className="flex gap-3 flex-wrap">
-                <HtmlSelect
-                  isActive={tab === "html"}
-                  onClick={() => setTab("html")}
-                />
-                <CssSelect
-                  isActive={tab === "css"}
-                  onClick={() => setTab("css")}
-                />
-                <JavascriptSelect
-                  isActive={tab === "javascript"}
-                  onClick={() => setTab("javascript")}
-                />
-                <LogsSelect
-                  isActive={tab === "console"}
-                  onClick={() => setTab("console")}
-                />
-                <PreviewSelect
-                  isActive={tab === "preview"}
-                  onClick={() => setTab("preview")}
-                />
-                <Imageupload
-                  isActive={tab === "images"}
-                  onClick={() => setTab("images")}
-                />
-              </main>
-              <FontChange />
-            </section>
-            <section className="h-full overflow-scroll">
-              {tab === "html" && <Html />}
-              {tab === "css" && <Css />}
-              {tab === "javascript" && <Javascript />}
-              {tab === "preview" && <Preview />}
-              {tab === "console" && <Preview console={true} />}
-              {tab === "images" && <ImagesTab />}
-            </section>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </div>
+      <section className="w-full h-full container mx-auto flex justify-center items-center">
+        <div className="flex flex-col gap-4 w-[90vw] max-w-[900px] items-center">
+          <h3 className="text-3xl font-medium text-neutral-700 dark:text-neutral-200 text-center mb-4">
+            Turn screenshot into a website and deploy in seconds
+          </h3>
+          <div className="w-full max-w-[600px]">
+            <ImageUpload onUploadComplete={handleUploadComplete} />
+          </div>
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="screenshot"
+              className="w-full border border-dashed border-neutral-200 dark:border-neutral-700 rounded-md max-w-[600px] max-h-[400px] object-contain"
+            />
+          )}
+          <Button
+            className="w-full max-w-[400px] font-medium py-3 select-none"
+            disabled={!imageUrl}
+          >
+            Generate Website 🚀
+          </Button>
+        </div>
+      </section>
     </main>
   );
 }

@@ -67,7 +67,7 @@ const ChatComponent = () => {
   };
 
   // selections
-
+  console.log("object", object);
   const [text, setText] = useState("");
   const modalContent = (
     <div className="w-[200px] p-2 rounded-md text-sm gap-1 flex flex-col">

@@ -48,7 +48,7 @@ const DiffEditor = ({
       originalEditorRef.current = editor;
       applyDiffHighlighting();
     },
-    [applyDiffHighlighting, original, improved]
+    [applyDiffHighlighting]
   );
 
   // Handle the improved editor mounting
@@ -57,7 +57,7 @@ const DiffEditor = ({
       improvedEditorRef.current = editor;
       applyDiffHighlighting();
     },
-    [applyDiffHighlighting, original, improved]
+    [applyDiffHighlighting]
   );
 
   // Apply diff highlighting to both editors
@@ -66,10 +66,6 @@ const DiffEditor = ({
   useEffect(() => {
     applyDiffHighlighting();
   }, [original, improved, applyDiffHighlighting]);
-
-  if (!original || !improved) {
-    return null;
-  }
 
   return (
     <div className="h-full flex flex-col">

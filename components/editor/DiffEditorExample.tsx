@@ -44,7 +44,7 @@ export default function DiffEditorWrapper({
           </Button>
         </section>
       </div>
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-scroll mb-12">
         <DiffEditor
           original={killIndent(original)}
           improved={killIndent(improved)}

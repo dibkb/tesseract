@@ -21,7 +21,7 @@ const ImagesTab = () => {
       <AspectRatio ratio={1} className="bg-muted rounded-t-md">
         <Image
           src={image}
-          alt="Photo by Drew Beamer"
+          alt="Photo from s3"
           fill
           className="h-full w-full object-cover rounded-t-md"
         />

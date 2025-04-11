@@ -143,9 +143,9 @@
 
 /* Diff editor styles */
 .diff-removed {
-  background-color: rgba(252, 69, 69, 0.29) !important;
+  background-color: rgba(252, 69, 69, 0.15) !important;
   text-decoration: line-through;
-  border-left: 2px solid rgba(252, 69, 69, 0.2);
+  border-left: 2px solid rgba(252, 69, 69, 0.1);
 }
 
 .diff-added {
@@ -155,8 +155,8 @@
 
 /* Dark mode specific styles */
 [data-theme="dark"] .diff-removed {
-  background-color: rgba(252, 69, 69, 0.7) !important;
-  border-left: 2px solid rgba(252, 69, 69, 0.3);
+  background-color: rgba(252, 69, 69, 0.2) !important;
+  border-left: 2px solid rgba(252, 69, 69, 0.15);
 }
 
 [data-theme="dark"] .diff-added {

@@ -46,7 +46,7 @@ const Html = () => {
           improved={htmlAiGenerated}
           language={"html"}
           className={cn(
-            "absolute bottom-0 left-0 right-0 h-[40%] bg-white dark:bg-[#1e1e1e] border-t z-[-100]",
+            "absolute bottom-0 left-0 right-0 h-[50%] bg-white dark:bg-[#1e1e1e] border-t z-[-100]",
             htmlSelection.text && htmlAiGenerated && "z-[100]"
           )}
         />
