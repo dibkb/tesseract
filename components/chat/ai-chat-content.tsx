@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import { z } from "zod";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import TesseractSyntaxHighlighter from "./syntax-hilighter";
 type OutputType = Partial<z.infer<typeof outPutSchema>>;
 
 const AiChatContent = ({ object }: { object: OutputType | undefined }) => {
@@ -35,31 +36,13 @@ const AiChatContent = ({ object }: { object: OutputType | undefined }) => {
         </SyntaxHighlighter>
       )}
       {htmlObject && (
-        <SyntaxHighlighter
-          language="html"
-          style={gruvboxDark}
-          className="rounded-md"
-        >
-          {htmlObject}
-        </SyntaxHighlighter>
+        <TesseractSyntaxHighlighter language="html" code={htmlObject} />
       )}
       {object?.css && (
-        <SyntaxHighlighter
-          language="css"
-          style={gruvboxDark}
-          className="rounded-md"
-        >
-          {object?.css}
-        </SyntaxHighlighter>
+        <TesseractSyntaxHighlighter language="css" code={object?.css} />
       )}
       {object?.js && (
-        <SyntaxHighlighter
-          language="javascript"
-          style={gruvboxDark}
-          className="rounded-md"
-        >
-          {object?.js}
-        </SyntaxHighlighter>
+        <TesseractSyntaxHighlighter language="javascript" code={object?.js} />
       )}
     </div>
   );
