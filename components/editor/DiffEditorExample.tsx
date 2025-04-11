@@ -3,6 +3,7 @@ import DiffEditor from "./DiffEditor";
 
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
+import { killIndent } from "@/utils/kill-indent";
 interface DiffEditorWrapperProps {
   original: string;
   improved: string;
@@ -41,8 +42,8 @@ export default function DiffEditorWrapper({
       </div>
       <div className="flex-1 overflow-hidden">
         <DiffEditor
-          original={original}
-          improved={improved}
+          original={killIndent(original)}
+          improved={killIndent(improved)}
           language={language}
         />
       </div>
