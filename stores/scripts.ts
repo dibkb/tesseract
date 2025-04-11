@@ -75,6 +75,14 @@ export type ScriptsActions = {
   setHtmlEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
   setCssEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
   setJsEditorRef: (editor: editor.IStandaloneCodeEditor) => void;
+
+  // ai-generated
+  htmlAiGenerated: string;
+  cssAiGenerated: string;
+  jsAiGenerated: string;
+  setHtmlAiGenerated: (html: string) => void;
+  setCssAiGenerated: (css: string) => void;
+  setJsAiGenerated: (js: string) => void;
 };
 
 export type ScriptsStore = ScriptsState & ScriptsActions;
@@ -133,6 +141,13 @@ export const createScriptsStore = (
           set((state) => ({ ...state, cssEditorRef: { current: editor } })),
         setJsEditorRef: (editor: editor.IStandaloneCodeEditor) =>
           set((state) => ({ ...state, jsEditorRef: { current: editor } })),
+        // ai-generated
+        htmlAiGenerated: "",
+        cssAiGenerated: "",
+        jsAiGenerated: "",
+        setHtmlAiGenerated: (html: string) => set({ htmlAiGenerated: html }),
+        setCssAiGenerated: (css: string) => set({ cssAiGenerated: css }),
+        setJsAiGenerated: (js: string) => set({ jsAiGenerated: js }),
       }),
       {
         name: "tesseract-scripts",

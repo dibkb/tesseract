@@ -30,6 +30,8 @@ const ChatComponent = () => {
     setHtmlSelection,
     setCssSelection,
     setJsSelection,
+    cssSelection,
+    jsSelection,
   } = useScriptsStore((state) => state);
 
   const selectionHandler = useCallback(
@@ -136,6 +138,8 @@ const ChatComponent = () => {
             e.preventDefault();
             submit({
               html: htmlSelection.text,
+              css: cssSelection.text,
+              js: jsSelection.text,
               userRequest: text.trim(),
             });
           }}
