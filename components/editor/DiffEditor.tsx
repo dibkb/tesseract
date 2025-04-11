@@ -24,24 +24,6 @@ const DiffEditor = ({
   const { fontSize } = useScriptsStore((state) => state);
   const originalEditorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const improvedEditorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-
-  // Handle the original editor mounting
-  const handleOriginalEditorDidMount = (
-    editor: editor.IStandaloneCodeEditor
-  ) => {
-    originalEditorRef.current = editor;
-    applyDiffHighlighting();
-  };
-
-  // Handle the improved editor mounting
-  const handleImprovedEditorDidMount = (
-    editor: editor.IStandaloneCodeEditor
-  ) => {
-    improvedEditorRef.current = editor;
-    applyDiffHighlighting();
-  };
-
-  // Apply diff highlighting to both editors
   const applyDiffHighlighting = useCallback(() => {
     if (!originalEditorRef.current || !improvedEditorRef.current) return;
 
@@ -60,11 +42,34 @@ const DiffEditor = ({
     originalEditorRef.current.deltaDecorations([], originalDecorations);
     improvedEditorRef.current.deltaDecorations([], improvedDecorations);
   }, [original, improved]);
+  // Handle the original editor mounting
+  const handleOriginalEditorDidMount = useCallback(
+    (editor: editor.IStandaloneCodeEditor) => {
+      originalEditorRef.current = editor;
+      applyDiffHighlighting();
+    },
+    [applyDiffHighlighting, original, improved]
+  );
+
+  // Handle the improved editor mounting
+  const handleImprovedEditorDidMount = useCallback(
+    (editor: editor.IStandaloneCodeEditor) => {
+      improvedEditorRef.current = editor;
+      applyDiffHighlighting();
+    },
+    [applyDiffHighlighting, original, improved]
+  );
+
+  // Apply diff highlighting to both editors
 
   // Update highlights when content changes
   useEffect(() => {
     applyDiffHighlighting();
   }, [original, improved, applyDiffHighlighting]);
+
+  if (!original || !improved) {
+    return null;
+  }
 
   return (
     <div className="h-full flex flex-col">

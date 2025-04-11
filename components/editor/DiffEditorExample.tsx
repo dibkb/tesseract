@@ -1,21 +1,25 @@
 "use client";
-import DiffEditor from "./DiffEditor";
-
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { killIndent } from "@/utils/kill-indent";
+import DiffEditor from "./DiffEditor";
+
 interface DiffEditorWrapperProps {
   original: string;
   improved: string;
   language: string;
+  className?: string;
 }
+
 export default function DiffEditorWrapper({
   original,
   improved,
   language,
+  className,
 }: DiffEditorWrapperProps) {
   return (
-    <div className="flex flex-col h-full">
+    <div className={cn("flex flex-col h-full", className)}>
       <div className="flex items-center justify-between p-4 border-b">
         <h1 className="text-lg font-semibold text-neutral-600 dark:text-neutral-400">
           AI Code Changes
