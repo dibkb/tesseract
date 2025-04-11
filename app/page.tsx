@@ -2,11 +2,30 @@
 "use client";
 import ImageUpload from "@/components/image-uplaod";
 import { Button } from "@/components/ui/button";
+import { useScriptsStore } from "@/stores/scripts-provider";
 import { Suspense, useState } from "react";
+import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
 function HomeContent() {
+  const { setHtml, setCss, setJs } = useScriptsStore((state) => state);
   const [imageUrl, setImageUrl] = useState<string>("");
   const handleUploadComplete = (url: string) => {
     setImageUrl(url);
+  };
+  const handleGenerateWebsite = async () => {
+    const res = await fetch("/api/generate-website", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        imageUrl,
+      }),
+    });
+    const data = await res.json();
+    const parse = generateWebsiteOutPutSchema.parse(data.object);
+    setHtml(parse.html);
+    setCss(parse.css);
+    setJs(parse.js);
   };
   return (
     <main className="h-[calc(100vh-3rem)]">
@@ -28,6 +47,7 @@ function HomeContent() {
           <Button
             className="w-full max-w-[400px] font-medium py-3 select-none"
             disabled={!imageUrl}
+            onClick={handleGenerateWebsite}
           >
             Generate Website 🚀
           </Button>

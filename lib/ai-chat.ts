@@ -11,4 +11,18 @@ const outPutSchema = z.object({
   explanation: z.string(),
 });
 
-export { inputSchema, outPutSchema };
+const generateWebsiteSchema = z.object({
+  imageUrl: z.string(),
+});
+const generateWebsiteOutPutSchema = z.object({
+  html: z.string(),
+  css: z.string(),
+  js: z.string(),
+});
+
+export {
+  inputSchema,
+  outPutSchema,
+  generateWebsiteSchema,
+  generateWebsiteOutPutSchema,
+};

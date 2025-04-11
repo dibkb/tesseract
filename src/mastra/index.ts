@@ -8,6 +8,7 @@ import {
   verificationAgent,
 } from "./agents";
 import codeAssistant from "./agents/code-assistant";
+import websiteGenerator from "./agents/website-generate";
 import htmlProcessingWorkflow from "./workflows/html-processing";
 
 export const mastra = new Mastra({
@@ -17,6 +18,7 @@ export const mastra = new Mastra({
     htmlFilterAgent,
     codeOperationAgent,
     verificationAgent,
+    websiteGenerator,
   },
   workflows: {
     htmlProcessing: htmlProcessingWorkflow,
