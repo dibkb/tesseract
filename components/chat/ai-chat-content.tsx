@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import { outPutSchema } from "@/lib/ai-chat";
 import Markdown from "react-markdown";
 import { z } from "zod";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import TesseractSyntaxHighlighter from "./syntax-hilighter";
 import { useScriptsStore } from "@/stores/scripts-provider";
 type OutputType = Partial<z.infer<typeof outPutSchema>>;
@@ -12,6 +10,7 @@ type OutputType = Partial<z.infer<typeof outPutSchema>>;
 const AiChatContent = ({ object }: { object: OutputType | undefined }) => {
   const { setHtmlAiGenerated, setCssAiGenerated, setJsAiGenerated } =
     useScriptsStore((state) => state);
+
   const htmlObject = `<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +22,7 @@ const AiChatContent = ({ object }: { object: OutputType | undefined }) => {
     <meta property="og:image" content="http://example.com/image.jpg">
     <meta property="og:description" content="A modern and sleek website design.">
 </head>`;
+
   useEffect(() => {
     if (object?.html) {
       setHtmlAiGenerated(object?.html);
@@ -42,13 +42,7 @@ const AiChatContent = ({ object }: { object: OutputType | undefined }) => {
     >
       {object?.explanation && <Markdown>{object?.explanation}</Markdown>}
       {object?.html && (
-        <SyntaxHighlighter
-          language="html"
-          style={gruvboxDark}
-          className="rounded-md"
-        >
-          {object?.html}
-        </SyntaxHighlighter>
+        <TesseractSyntaxHighlighter language="html" code={object?.html} />
       )}
       {htmlObject && (
         <TesseractSyntaxHighlighter language="html" code={htmlObject} />

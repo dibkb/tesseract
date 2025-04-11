@@ -3,12 +3,18 @@ import { useTheme } from "next-themes";
 import { useScriptsStore } from "@/stores/scripts-provider";
 import { CodeiumEditor } from "@codeium/react-code-editor";
 import type { editor } from "monaco-types";
-// import DiffEditorExample from "./DiffEditorExample";
+import DiffEditorWrapper from "./DiffEditorExample";
 
 const Html = () => {
-  const { htmlEditorRef } = useScriptsStore((state) => state);
   const { theme } = useTheme();
-  const { html, setHtml, fontSize } = useScriptsStore((state) => state);
+  const {
+    html,
+    setHtml,
+    fontSize,
+    htmlSelection,
+    htmlEditorRef,
+    htmlAiGenerated,
+  } = useScriptsStore((state) => state);
 
   function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
     htmlEditorRef.current = editor;
@@ -17,7 +23,8 @@ const Html = () => {
   const onChange = (value: string | undefined) => {
     setHtml(value || "");
   };
-
+  console.log("htmlAiGenerated", htmlAiGenerated);
+  console.log("htmlSelection", htmlSelection.text);
   return (
     <div className="h-full flex flex-col">
       {/* Main editor */}
@@ -37,7 +44,14 @@ const Html = () => {
           className="tesseract--editor h-full"
         />
       </div>
-      {/* <DiffEditorExample /> */}
+      {/* Diff editor */}
+      {
+        <DiffEditorWrapper
+          original={htmlSelection.text}
+          improved={htmlAiGenerated}
+          language={"html"}
+        />
+      }
     </div>
   );
 };

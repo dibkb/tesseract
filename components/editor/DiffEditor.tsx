@@ -6,6 +6,8 @@ import { useScriptsStore } from "@/stores/scripts-provider";
 import { CodeiumEditor } from "@codeium/react-code-editor";
 import { calculateLineDiffs } from "@/utils/diff";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { inconsolata } from "@/constants/fonts";
 
 interface DiffEditorProps {
   original: string;
@@ -69,7 +71,14 @@ const DiffEditor = ({
       <div className="w-full h-full flex">
         {/* Original Editor */}
         <div className="flex-1 h-full">
-          <div className="font-medium text-sm mb-1 px-2">Original</div>
+          <div
+            className={cn(
+              "font-semibold text-sm mb-1 px-2 text-neutral-600 dark:text-neutral-400",
+              inconsolata.className
+            )}
+          >
+            Original
+          </div>
           <div className="h-[calc(100%-25px)]">
             <CodeiumEditor
               onMount={handleOriginalEditorDidMount}
@@ -92,7 +101,14 @@ const DiffEditor = ({
 
         {/* Improved Editor */}
         <div className="flex-1 h-full">
-          <div className="font-medium text-sm mb-1 px-2">Improved</div>
+          <div
+            className={cn(
+              "font-semibold text-sm mb-1 px-2 text-neutral-600 dark:text-neutral-400",
+              inconsolata.className
+            )}
+          >
+            Improved
+          </div>
           <div className="h-[calc(100%-25px)]">
             <CodeiumEditor
               onMount={handleImprovedEditorDidMount}
