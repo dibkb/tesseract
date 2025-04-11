@@ -5,29 +5,29 @@ import { Button } from "../ui/button";
 import { HtmlSelect, JavascriptSelect } from "../buttons/editor-select";
 import { CssSelect } from "../buttons/editor-select";
 import { useScriptsStore } from "@/stores/scripts-provider";
-import ManageSelection from "@/constants/selection";
 import { ContextSelected } from "@/stores/scripts";
 import { selectedComponentsDisplay } from "@/constants/selected-components";
 import { X } from "lucide-react";
 import { experimental_useObject as useObject } from "@ai-sdk/react";
-import { z } from "zod";
+import { outPutSchema } from "@/lib/ai-chat";
+import getSelectedLines from "@/lib/selection";
 
 const ChatComponent = () => {
-  const { object, submit } = useObject({
+  const { object, submit, isLoading } = useObject({
     api: "/api/ai-demo",
-    schema: z.object({
-      html: z.string(),
-    }),
+    schema: outPutSchema,
   });
   const [modal, setModal] = useState(false);
   const {
+    htmlEditorRef,
+    cssEditorRef,
+    jsEditorRef,
     contextSelected,
     setContextSelected,
     setHtmlSelection,
     setCssSelection,
     setJsSelection,
   } = useScriptsStore((state) => state);
-  const manageSelection = ManageSelection.getInstance();
 
   const selectionHandler = useCallback(
     (key: ContextSelected) => {
@@ -40,20 +40,29 @@ const ChatComponent = () => {
     [contextSelected, setContextSelected]
   );
   const onClickHtmlSelection = () => {
-    const selection = manageSelection.getHtmlSelection();
-    setHtmlSelection(selection);
-    selectionHandler("selectedHtml");
+    const htmlSelection = getSelectedLines(htmlEditorRef);
+    if (htmlSelection) {
+      setHtmlSelection(htmlSelection);
+      selectionHandler("selectedHtml");
+    }
   };
   const onClickCssSelection = () => {
-    const selection = manageSelection.getCssSelection();
-    setCssSelection(selection);
-    selectionHandler("selectedCss");
+    const cssSelection = getSelectedLines(cssEditorRef);
+    if (cssSelection) {
+      setCssSelection(cssSelection);
+      selectionHandler("selectedCss");
+    }
   };
   const onClickJsSelection = () => {
-    const selection = manageSelection.getJsSelection();
-    setJsSelection(selection);
-    selectionHandler("selectedJs");
+    const jsSelection = getSelectedLines(jsEditorRef);
+    if (jsSelection) {
+      setJsSelection(jsSelection);
+      selectionHandler("selectedJs");
+    }
   };
+
+  // selections
+
   const [text, setText] = useState("");
   const modalContent = (
     <div className="w-[200px] p-2 rounded-md text-sm gap-1 flex flex-col">
@@ -72,46 +81,34 @@ const ChatComponent = () => {
         onClick={() => selectionHandler("js")}
         text={"script.js (all)"}
       />
-      <HtmlSelect
-        isActive={contextSelected.includes("selectedHtml")}
-        onClick={onClickHtmlSelection}
-        text={"index.html (selected)"}
-      />
-      <CssSelect
-        isActive={contextSelected.includes("selectedCss")}
-        onClick={onClickCssSelection}
-        text={"style.css (selected)"}
-      />
-      <JavascriptSelect
-        isActive={contextSelected.includes("selectedJs")}
-        onClick={onClickJsSelection}
-        text={"script.js (selected)"}
-      />
+      {htmlEditorRef.current && (
+        <HtmlSelect
+          isActive={contextSelected.includes("selectedHtml")}
+          onClick={onClickHtmlSelection}
+          text={`index.html (selected)`}
+        />
+      )}
+      {cssEditorRef.current && (
+        <CssSelect
+          isActive={contextSelected.includes("selectedCss")}
+          onClick={onClickCssSelection}
+          text={"style.css (selected)"}
+        />
+      )}
+      {jsEditorRef.current && (
+        <JavascriptSelect
+          isActive={contextSelected.includes("selectedJs")}
+          onClick={onClickJsSelection}
+          text={"script.js (selected)"}
+        />
+      )}
     </div>
   );
-
-  console.log(object);
 
   return (
     <div className="h-full relative p-2 flex flex-col">
       <main className="flex-1 overflow-y-auto mb-[180px]">
-        <div className="space-y-4 p-1">
-          {/* {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`p-3 rounded-lg ${
-                m.role === "user"
-                  ? "bg-blue-100 dark:bg-blue-900/30 ml-auto max-w-[80%]"
-                  : "bg-gray-100 dark:bg-gray-800/50 mr-auto max-w-[80%]"
-              }`}
-            >
-              <div className="font-semibold mb-1">
-                {m.role === "user" ? "You" : "AI"}
-              </div>
-              <div>{m.content}</div>
-            </div>
-          ))} */}
-        </div>
+        <div className="space-y-4 p-1"></div>
       </main>
 
       <div className="absolute bottom-0 left-0 w-full p-2 bg-background/80 backdrop-blur-sm">
