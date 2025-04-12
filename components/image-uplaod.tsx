@@ -109,7 +109,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
           className="relative flex flex-col items-center justify-center p-6 border-2 border-neutral-300 border-dashed rounded-lg cursor-pointer bg-neutral-50 dark:hover:bg-bray-800 dark:bg-neutral-700 hover:bg-neutral-100 dark:border-neutral-600 dark:hover:border-neutral-500 dark:hover:bg-neutral-600 w-full visually-hidden-focusable h-full"
         >
           {loading && (
-            <div className="text-center max-w-md">
+            <div className="text-center max-w-md flex flex-col items-center justify-center gap-1">
               <Progress value={progress} />
               <p className="text-sm font-semibold">Uploading Picture</p>
               <p className="text-xs text-neutral-400">

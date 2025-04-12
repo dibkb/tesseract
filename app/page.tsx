@@ -7,6 +7,8 @@ import { Suspense, useState } from "react";
 import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { inconsolata } from "@/constants/fonts";
 
 interface ImageProps {
   imageUrl: string;
@@ -67,6 +69,21 @@ function HomeContent() {
           >
             Generate Website 🚀
           </Button>
+          <div className="flex items-center gap-2 mt-6">
+            <img
+              src="https://images.sftcdn.net/images/t_app-icon-m/p/8b1ff6ff-a6f3-450c-bd38-d35751753533/1356033661/meta-llama-3-logo"
+              alt="Meta Icon"
+              className="w-4 h-4"
+            />
+            <p
+              className={cn(
+                "text-sm text-neutral-500 dark:text-neutral-400 font-medium",
+                inconsolata.className
+              )}
+            >
+              llama-4-scout-17b-16e-instruct
+            </p>
+          </div>
         </div>
       </section>
     </main>
