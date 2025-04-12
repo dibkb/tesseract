@@ -8,7 +8,9 @@ import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { inconsolata } from "@/constants/fonts";
+import { inconsolata, libreBaskerville } from "@/constants/fonts";
+import Link from "next/link";
+import { Githubsvg, LinkedinSvg, Xsvg } from "@/components/svg/editor-buttons";
 
 interface ImageProps {
   imageUrl: string;
@@ -49,7 +51,12 @@ function HomeContent() {
     <main className="h-[calc(100vh-3rem)]">
       <section className="w-full h-full container mx-auto flex justify-center items-center">
         <div className="flex flex-col gap-4 w-[90vw] max-w-[900px] items-center">
-          <h3 className="text-3xl font-medium text-neutral-700 dark:text-neutral-200 text-center mb-4">
+          <h3
+            className={cn(
+              "text-3xl font-medium text-neutral-700 dark:text-neutral-200 text-center mb-4",
+              libreBaskerville.className
+            )}
+          >
             Turn screenshot into a website and deploy in seconds
           </h3>
           <div className="w-full max-w-[600px]">
@@ -86,6 +93,19 @@ function HomeContent() {
           </div>
         </div>
       </section>
+
+      {/* socials */}
+      <main className="flex items-center justify-center gap-4 absolute bottom-8 right-8">
+        <Link href="https://github.com/dibkb/tesseract" className="group">
+          <Githubsvg className="w-5 h-5 text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-500 dark:group-hover:text-neutral-400" />
+        </Link>
+        <Link href="https://www.linkedin.com/in/dibkb/" className="group">
+          <LinkedinSvg className="w-5 h-5 text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-500 dark:group-hover:text-neutral-400" />
+        </Link>
+        <Link href="https://x.com/dkborborah" className="group">
+          <Xsvg className="w-4 h-4 text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-500 dark:group-hover:text-neutral-400" />
+        </Link>
+      </main>
     </main>
   );
 }
