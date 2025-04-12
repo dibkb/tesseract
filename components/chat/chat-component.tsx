@@ -1,6 +1,6 @@
 "use client";
 import { toast } from "sonner";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { HtmlSelect, JavascriptSelect } from "../buttons/editor-select";
@@ -22,6 +22,8 @@ const ChatComponent = () => {
   const [modal, setModal] = useState(false);
   const {
     htmlSelection,
+    cssSelection,
+    jsSelection,
     htmlEditorRef,
     cssEditorRef,
     jsEditorRef,
@@ -30,8 +32,12 @@ const ChatComponent = () => {
     setHtmlSelection,
     setCssSelection,
     setJsSelection,
-    cssSelection,
-    jsSelection,
+    setHtmlAiGenerated,
+    setCssAiGenerated,
+    setJsAiGenerated,
+    htmlAiGenerated,
+    cssAiGenerated,
+    jsAiGenerated,
   } = useScriptsStore((state) => state);
 
   const selectionHandler = useCallback(
@@ -66,8 +72,21 @@ const ChatComponent = () => {
     }
   };
 
-  // selections
-  console.log("object", object);
+  useEffect(() => {
+    if (object?.html) {
+      setHtmlAiGenerated(object?.html);
+    }
+    if (object?.css) {
+      setCssAiGenerated(object?.css);
+    }
+    if (object?.js) {
+      setJsAiGenerated(object?.js);
+    }
+  }, [object, setHtmlAiGenerated, setCssAiGenerated, setJsAiGenerated]);
+  const htmlDiffPresent = Boolean(htmlAiGenerated && htmlSelection.text);
+  const cssDiffPresent = Boolean(cssAiGenerated && cssSelection.text);
+  const jsDiffPresent = Boolean(jsAiGenerated && jsSelection.text);
+
   const [text, setText] = useState("");
   const modalContent = (
     <div className="w-[200px] p-2 rounded-md text-sm gap-1 flex flex-col">
@@ -136,6 +155,35 @@ const ChatComponent = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+
+            if (isLoading) {
+              toast("Please wait for the AI to generate the code", {
+                description: "Please wait for the AI to generate the code",
+              });
+              return;
+            }
+            if (htmlDiffPresent) {
+              toast("Please Accept or Reject the HTML code", {
+                description:
+                  "Please Accept or Reject the AI generated code first in the html editor",
+              });
+              return;
+            }
+            if (cssDiffPresent) {
+              toast("Please Accept or Reject the CSS code", {
+                description:
+                  "Please Accept or Reject the AI generated code first in the css editor",
+              });
+              return;
+            }
+            if (jsDiffPresent) {
+              toast("Please Accept or Reject the JS code", {
+                description:
+                  "Please Accept or Reject the AI generated code first in the js editor",
+              });
+              return;
+            }
+
             submit({
               html: htmlSelection.text,
               css: cssSelection.text,
@@ -150,7 +198,9 @@ const ChatComponent = () => {
             placeholder="Plan search and build anything..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            disabled={isLoading}
+            disabled={
+              isLoading || htmlDiffPresent || cssDiffPresent || jsDiffPresent
+            }
             onPaste={(e) => {
               e.preventDefault();
               toast("Pasting not allowed", {
@@ -160,7 +210,6 @@ const ChatComponent = () => {
           />
           <Button
             type="submit"
-            disabled={!text.trim()}
             className="w-full m-1 rounded-md dark:bg-white/80 hover:dark:bg-white transition-all duration-300 dark:text-black cursor-pointer bg-neutral-800 hover:bg-neutral-900 border"
           >
             Send

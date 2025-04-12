@@ -1,15 +1,18 @@
 "use client";
+
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { killIndent } from "@/utils/kill-indent";
 import DiffEditor from "./DiffEditor";
-
+import type { Selection } from "../../constants/types/selection";
 interface DiffEditorWrapperProps {
-  original: string;
+  original: Selection;
   improved: string;
   language: string;
   className?: string;
+  acceptChanges: () => void;
+  rejectChanges: () => void;
 }
 
 export default function DiffEditorWrapper({
@@ -17,6 +20,8 @@ export default function DiffEditorWrapper({
   improved,
   language,
   className,
+  acceptChanges,
+  rejectChanges,
 }: DiffEditorWrapperProps) {
   return (
     <div className={cn("flex flex-col h-full", className)}>
@@ -27,6 +32,7 @@ export default function DiffEditorWrapper({
 
         <section className="flex gap-2">
           <Button
+            onClick={acceptChanges}
             variant="ghost"
             size="sm"
             className="text-neutral-600 dark:text-neutral-400 hover:bg-green-100 hover:text-green-700 dark:hover:bg-green-900/30 dark:hover:text-green-500 font-semibold flex items-center group"
@@ -35,6 +41,7 @@ export default function DiffEditorWrapper({
             Accept changes
           </Button>
           <Button
+            onClick={rejectChanges}
             variant="ghost"
             size="sm"
             className="text-neutral-600 dark:text-neutral-400 hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-500 font-semibold flex items-center group"
@@ -46,7 +53,7 @@ export default function DiffEditorWrapper({
       </div>
       <div className="flex-1 overflow-scroll mb-12">
         <DiffEditor
-          original={killIndent(original)}
+          original={killIndent(original.text)}
           improved={killIndent(improved)}
           language={language}
         />
