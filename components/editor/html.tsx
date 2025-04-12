@@ -6,6 +6,7 @@ import type { editor } from "monaco-types";
 import DiffEditorWrapper from "./DiffEditorExample";
 import { cn } from "@/lib/utils";
 import { deleteLines, pasteAtLine } from "@/lib/editor-paste-delete";
+import { useCallback } from "react";
 
 const Html = () => {
   const { theme } = useTheme();
@@ -28,7 +29,7 @@ const Html = () => {
     setHtml(value || "");
   };
 
-  function acceptChanges() {
+  const acceptChanges = useCallback(() => {
     if (htmlEditorRef.current) {
       deleteLines(
         htmlSelection.startLine,
@@ -43,16 +44,22 @@ const Html = () => {
       });
       setHtmlAiGenerated("");
     }
-  }
+  }, [
+    htmlEditorRef,
+    htmlSelection,
+    htmlAiGenerated,
+    setHtmlAiGenerated,
+    setHtmlSelection,
+  ]);
 
-  function rejectChanges() {
+  const rejectChanges = useCallback(() => {
     setHtmlSelection({
       startLine: 0,
       endLine: 0,
       text: "",
     });
     setHtmlAiGenerated("");
-  }
+  }, [setHtmlSelection, setHtmlAiGenerated]);
 
   return (
     <div className="relative h-full">
