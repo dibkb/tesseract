@@ -7,7 +7,7 @@ export async function POST(req: Request) {
 
   const agent = mastra.getAgent("codeAssistant");
   // Format the user request with HTML content template
-  const formattedMessage = `HTML: ${parsedMessage.html}\n\nRequest: ${parsedMessage.userRequest}`;
+  const formattedMessage = `HTML: ${parsedMessage.html}\n\nCSS: ${parsedMessage.css}\n\nJavaScript: ${parsedMessage.js}\n\nRequest: ${parsedMessage.userRequest}`;
   const result = await agent.stream(formattedMessage, {
     output: outPutSchema,
   });

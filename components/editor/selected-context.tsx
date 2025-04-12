@@ -3,7 +3,6 @@ import React from "react";
 import { ContextSelected } from "@/stores/scripts";
 import { X } from "lucide-react";
 import { useScriptsStore } from "@/stores/scripts-provider";
-import getSelectedLines from "@/lib/selection";
 
 const SelectedContext = ({
   contextSelected,
@@ -12,7 +11,7 @@ const SelectedContext = ({
   contextSelected: ContextSelected[];
   selectionHandler: (ele: ContextSelected) => void;
 }) => {
-  const { htmlEditorRef, cssEditorRef, jsEditorRef } = useScriptsStore(
+  const { htmlSelection, cssSelection, jsSelection } = useScriptsStore(
     (state) => state
   );
   return (
@@ -20,17 +19,11 @@ const SelectedContext = ({
       {contextSelected.map((ele) => {
         let content = selectedComponentsDisplay[ele];
         if (ele === "selectedHtml") {
-          content = `index.html : (${
-            getSelectedLines(htmlEditorRef)?.startLine
-          } - ${getSelectedLines(htmlEditorRef)?.endLine} lines)`;
+          content = `index.html : (${htmlSelection.startLine} - ${htmlSelection.endLine} lines)`;
         } else if (ele === "selectedCss") {
-          content = `style.css : (${
-            getSelectedLines(cssEditorRef)?.startLine
-          } - ${getSelectedLines(cssEditorRef)?.endLine} lines)`;
+          content = `style.css : (${cssSelection.startLine} - ${cssSelection.endLine} lines)`;
         } else if (ele === "selectedJs") {
-          content = `script.js : (${
-            getSelectedLines(jsEditorRef)?.startLine
-          } - ${getSelectedLines(jsEditorRef)?.endLine} lines)`;
+          content = `script.js : (${jsSelection.startLine} - ${jsSelection.endLine} lines)`;
         }
         return (
           <button

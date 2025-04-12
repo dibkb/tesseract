@@ -129,6 +129,61 @@ const ChatComponent = () => {
     </div>
   );
 
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (isLoading) {
+        toast("Please wait for the AI to generate the code", {
+          description: "Please wait for the AI to generate the code",
+        });
+        return;
+      }
+      if (htmlDiffPresent) {
+        toast("Please Accept or Reject the HTML code", {
+          description:
+            "Please Accept or Reject the AI generated code first in the html editor",
+        });
+        return;
+      }
+      if (cssDiffPresent) {
+        toast("Please Accept or Reject the CSS code", {
+          description:
+            "Please Accept or Reject the AI generated code first in the css editor",
+        });
+        return;
+      }
+      if (jsDiffPresent) {
+        toast("Please Accept or Reject the JS code", {
+          description:
+            "Please Accept or Reject the AI generated code first in the js editor",
+        });
+        return;
+      }
+
+      submit({
+        html: contextSelected.includes("selectedHtml")
+          ? htmlSelection.text
+          : "",
+        css: contextSelected.includes("selectedCss") ? cssSelection.text : "",
+        js: contextSelected.includes("selectedJs") ? jsSelection.text : "",
+        userRequest: text.trim(),
+      });
+      setText("");
+    },
+    [
+      submit,
+      isLoading,
+      htmlDiffPresent,
+      cssDiffPresent,
+      jsDiffPresent,
+      cssSelection,
+      jsSelection,
+      htmlSelection,
+      contextSelected,
+      text,
+    ]
+  );
   return (
     <div className="h-full relative p-2 flex flex-col">
       <main className="flex-1 overflow-y-auto mb-[300px]">
@@ -153,44 +208,7 @@ const ChatComponent = () => {
           />
         </div>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            if (isLoading) {
-              toast("Please wait for the AI to generate the code", {
-                description: "Please wait for the AI to generate the code",
-              });
-              return;
-            }
-            if (htmlDiffPresent) {
-              toast("Please Accept or Reject the HTML code", {
-                description:
-                  "Please Accept or Reject the AI generated code first in the html editor",
-              });
-              return;
-            }
-            if (cssDiffPresent) {
-              toast("Please Accept or Reject the CSS code", {
-                description:
-                  "Please Accept or Reject the AI generated code first in the css editor",
-              });
-              return;
-            }
-            if (jsDiffPresent) {
-              toast("Please Accept or Reject the JS code", {
-                description:
-                  "Please Accept or Reject the AI generated code first in the js editor",
-              });
-              return;
-            }
-
-            submit({
-              html: htmlSelection.text,
-              css: cssSelection.text,
-              js: jsSelection.text,
-              userRequest: text.trim(),
-            });
-          }}
+          onSubmit={handleSubmit}
           className="w-full h-full flex flex-col gap-2 items-center justify-center rounded-lg"
         >
           <Textarea
