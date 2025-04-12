@@ -112,7 +112,7 @@ const ChatComponent = () => {
 
   return (
     <div className="h-full relative p-2 flex flex-col">
-      <main className="flex-1 overflow-y-auto mb-[180px]">
+      <main className="flex-1 overflow-y-auto mb-[300px]">
         {/* AI content */}
         <AiChatContent object={object} />
       </main>

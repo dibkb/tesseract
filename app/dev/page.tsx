@@ -35,11 +35,11 @@ function HomeContent() {
     <main className="h-[calc(100vh-3rem)]">
       <div className="h-full">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25}>
+          <ResizablePanel defaultSize={30}>
             <ChatComponent />
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={75} className="px-6 pt-2">
+          <ResizablePanel defaultSize={70} className="px-6 pt-2">
             <section className="flex items-center justify-between mb-3 flex-wrap gap-y-2">
               <main className="flex gap-3 flex-wrap">
                 <HtmlSelect

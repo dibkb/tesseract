@@ -88,7 +88,7 @@ function HomeContent() {
                 inconsolata.className
               )}
             >
-              llama-4-scout-17b-16e-instruct
+              llama-4-maverick-17b-128e-instruct
             </p>
           </div>
         </div>
