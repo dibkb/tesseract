@@ -5,11 +5,20 @@ import { Button } from "@/components/ui/button";
 import { useScriptsStore } from "@/stores/scripts-provider";
 import { Suspense, useState } from "react";
 import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+interface ImageProps {
+  imageUrl: string;
+  width: number;
+  height: number;
+}
 function HomeContent() {
   const { setHtml, setCss, setJs } = useScriptsStore((state) => state);
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const handleUploadComplete = (url: string) => {
-    setImageUrl(url);
+  const [imageProps, setImageProps] = useState<ImageProps>();
+  const router = useRouter();
+  const handleUploadComplete = (url: string, width: number, height: number) => {
+    setImageProps({ imageUrl: url, width, height });
   };
   const handleGenerateWebsite = async () => {
     const res = await fetch("/api/generate-website", {
@@ -18,14 +27,21 @@ function HomeContent() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        imageUrl,
+        imageUrl: imageProps?.imageUrl,
+        width: imageProps?.width,
+        height: imageProps?.height,
       }),
     });
     const data = await res.json();
     const parse = generateWebsiteOutPutSchema.parse(data.object);
-    setHtml(parse.html);
-    setCss(parse.css);
-    setJs(parse.js);
+    if (parse) {
+      setHtml(parse.html);
+      setCss(parse.css);
+      setJs(parse.js);
+      router.push("/dev?tab=preview");
+    } else {
+      toast.error("Something went wrong");
+    }
   };
   return (
     <main className="h-[calc(100vh-3rem)]">
@@ -37,16 +53,16 @@ function HomeContent() {
           <div className="w-full max-w-[600px]">
             <ImageUpload onUploadComplete={handleUploadComplete} />
           </div>
-          {imageUrl && (
+          {imageProps?.imageUrl && (
             <img
-              src={imageUrl}
+              src={imageProps.imageUrl}
               alt="screenshot"
               className="w-full border border-dashed border-neutral-200 dark:border-neutral-700 rounded-md max-w-[600px] max-h-[400px] object-contain"
             />
           )}
           <Button
             className="w-full max-w-[400px] font-medium py-3 select-none"
-            disabled={!imageUrl}
+            disabled={!imageProps?.imageUrl}
             onClick={handleGenerateWebsite}
           >
             Generate Website 🚀

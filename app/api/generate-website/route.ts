@@ -7,6 +7,8 @@ export async function POST(req: Request) {
   const parsedData = z
     .object({
       imageUrl: z.string(),
+      width: z.number(),
+      height: z.number(),
     })
     .safeParse(json);
 
@@ -28,7 +30,11 @@ export async function POST(req: Request) {
           },
           {
             type: "text",
-            text: "Generate a website from the following screenshot",
+            text: `The screenshot is ${parsedData.data.width}px wide and ${parsedData.data.height}px tall`,
+          },
+          {
+            type: "text",
+            text: "Generate a html, css and js code to replicate the website in the screenshot",
           },
         ],
       },

@@ -11,7 +11,7 @@ import axios, { AxiosProgressEvent } from "axios";
 import { UploadCloud } from "lucide-react";
 
 interface ImageUploadProps {
-  onUploadComplete: (url: string) => void;
+  onUploadComplete: (url: string, width: number, height: number) => void;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
@@ -49,7 +49,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
     async (image: File) => {
       if (!image) return;
       setLoading(true);
-      console.log(image);
+      let width = 0;
+      let height = 0;
+      // Get image dimensions
+      const img = new window.Image();
+      img.src = URL.createObjectURL(image);
+
+      await new Promise<{ width: number; height: number }>((resolve) => {
+        img.onload = () => {
+          width = img.width;
+          height = img.height;
+          URL.revokeObjectURL(img.src);
+          resolve({ width, height });
+        };
+      });
 
       const formData = new FormData();
       formData.append("image", image);
@@ -61,7 +74,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
           onUploadProgress,
         });
         if (res.data.imageUrl && onUploadComplete) {
-          onUploadComplete(res.data.imageUrl);
+          onUploadComplete(res.data.imageUrl, width, height);
           setLoading(false);
         }
       } catch (error) {
