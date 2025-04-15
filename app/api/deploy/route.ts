@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
 import JSZip from "jszip";
+import { resetCss } from "@/utils/reset-css";
+import { addFooterCSS, createFullHtml } from "@/utils/create-preview";
 export async function POST(req: Request) {
   try {
-    const { html, css } = await req.json();
+    const { html, css, js } = await req.json();
     const zip = new JSZip();
 
     // Create the HTML content with proper whitespace preservation
 
-    zip.file("index.html", html);
-    zip.file("style.css", css);
-
+    zip.file("index.html", createFullHtml({ html }));
+    zip.file("reset.css", resetCss);
+    zip.file("style.css", addFooterCSS(css));
+    zip.file("script.js", js);
     const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 
     // Create a new site on Netlify with increased timeout
