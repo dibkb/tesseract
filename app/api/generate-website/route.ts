@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { mastra } from "@/src/mastra";
 import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
-
+export const maxDuration = 30;
 export async function POST(req: Request) {
   try {
     const json = await req.json();
