@@ -2,9 +2,6 @@ import { z } from "zod";
 import { mastra } from "@/src/mastra";
 import { generateWebsiteOutPutSchema } from "@/lib/ai-chat";
 
-// Increased timeout to 5 minutes (300000ms)
-export const maxDuration = 300000;
-
 export async function POST(req: Request) {
   try {
     const json = await req.json();
