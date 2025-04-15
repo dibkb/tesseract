@@ -1,5 +1,6 @@
 import { ScriptsState } from "@/stores/scripts";
 import { killIndent } from "./kill-indent";
+import { resetCss } from "./reset-css";
 
 const consoleCaptureScript = `
 <script>
@@ -47,6 +48,7 @@ export const createDocument = ({
 
   const styleBlock = `
       <style>
+        ${resetCss}
         ${css}
       </style>`;
 
