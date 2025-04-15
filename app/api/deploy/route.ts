@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import JSZip from "jszip";
 import { resetCss } from "@/utils/reset-css";
 import { addFooterCSS, createFullHtml } from "@/utils/create-preview";
+import { generateUsername } from "unique-username-generator";
 export async function POST(req: Request) {
   try {
     const { html, css, js } = await req.json();
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     zip.file("style.css", addFooterCSS(css));
     zip.file("script.js", js);
     const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
-
+    const username = generateUsername("-");
     // Create a new site on Netlify with increased timeout
     const netlifyResponse = await fetch(
       "https://api.netlify.com/api/v1/sites/",
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
           Authorization: `Bearer ${process.env.NETLIFY_AUTH_TOKEN}`,
         },
         body: JSON.stringify({
-          name: "honestly-tesseract-site" + Date.now(),
+          name: username + "-tesseract-site",
         }),
         // Increase timeout to 30 seconds
         signal: AbortSignal.timeout(30000),
@@ -42,7 +43,6 @@ export async function POST(req: Request) {
     }
 
     const siteData = await netlifyResponse.json();
-    console.log("Site created:", siteData);
     const siteId = siteData.id;
 
     // Create a deploy with files
@@ -62,7 +62,6 @@ export async function POST(req: Request) {
     );
 
     const deployData = await deployResponse.json();
-    console.log("Deploy completed:", deployData);
 
     return NextResponse.json({
       success: true,
