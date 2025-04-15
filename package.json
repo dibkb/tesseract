@@ -29,6 +29,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "html-validate": "^9.5.2",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.487.0",
     "monaco-types": "^0.1.0",
     "next": "15.2.4",
