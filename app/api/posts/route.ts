@@ -9,16 +9,6 @@ const region = process.env.AWS_BUCKET_REGION;
 const accessKeyId = process.env.AWS_ACCESS_KEY_TESSERACT;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY_TESSERACT;
 
-// Debug logging for environment variables
-console.log("AWS Config:", {
-  bucketNameExists: !!bucketName,
-  regionExists: !!region,
-  accessKeyIdExists: !!accessKeyId,
-  secretAccessKeyExists: !!secretAccessKey,
-  bucketName,
-  region,
-});
-
 // Ensure all required environment variables are present
 if (!bucketName || !region || !accessKeyId || !secretAccessKey) {
   console.error("Missing AWS credentials:", {
@@ -63,12 +53,6 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(bytes);
     const fileType = fileImage.type || "application/octet-stream";
 
-    console.log("File info:", {
-      name: fileImage.name,
-      type: fileType,
-      size: buffer.length,
-    });
-
     // Upload to S3
     const uploadParams = {
       Bucket: bucketName,
@@ -76,7 +60,6 @@ export async function POST(request: Request) {
       Body: buffer,
       ContentType: fileType,
     };
-    console.log("uploadParams", uploadParams);
     await s3Client.send(new PutObjectCommand(uploadParams));
 
     return NextResponse.json(
@@ -90,60 +73,6 @@ export async function POST(request: Request) {
     console.error("Error processing upload:", error);
     return NextResponse.json(
       { error: "Error uploading image" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET() {
-  try {
-    // Test S3 connection
-    const testParams = {
-      Bucket: bucketName,
-    };
-
-    try {
-      await s3Client.send(
-        new PutObjectCommand({
-          ...testParams,
-          Key: "test-connection.txt",
-          Body: "Testing S3 connection",
-          ContentType: "text/plain",
-        })
-      );
-      return NextResponse.json({
-        message: "Hello from Next.js!",
-        s3Status: "Connection successful",
-        config: {
-          bucketName,
-          region,
-          hasAccessKey: !!accessKeyId,
-        },
-      });
-    } catch (s3Error: Error | unknown) {
-      const errorMessage =
-        s3Error instanceof Error ? s3Error.message : "Unknown S3 error";
-      console.error("S3 connection test failed:", s3Error);
-      return NextResponse.json({
-        message: "Hello from Next.js!",
-        s3Status: "Connection failed",
-        error: errorMessage,
-        config: {
-          bucketName,
-          region,
-          hasAccessKey: !!accessKeyId,
-        },
-      });
-    }
-  } catch (error: Error | unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    console.error("GET endpoint error:", error);
-    return NextResponse.json(
-      {
-        message: "Error in endpoint",
-        error: errorMessage,
-      },
       { status: 500 }
     );
   }
