@@ -7,7 +7,7 @@ import DiffEditorWrapper from "./DiffEditorExample";
 import { cn } from "@/lib/utils";
 import { deleteLines, pasteAtLine } from "@/lib/editor-paste-delete";
 import { useCallback } from "react";
-
+import { indexHtml } from "@/constants/html";
 const Html = () => {
   const { theme } = useTheme();
   const {
@@ -69,7 +69,7 @@ const Html = () => {
         value={html}
         onChange={onChange}
         language="html"
-        defaultValue="<!-- Welcome to the HTML editor! 🚀-->"
+        defaultValue={indexHtml}
         theme={theme === "dark" ? "vs-dark" : "vs"}
         options={{
           fontSize,

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { inconsolata, libreBaskerville } from "@/constants/fonts";
 import Link from "next/link";
 import { Githubsvg, LinkedinSvg, Xsvg } from "@/components/svg/editor-buttons";
+import { indexHtml } from "@/constants/html";
 
 interface ImageProps {
   imageUrl: string;
@@ -18,13 +19,17 @@ interface ImageProps {
   height: number;
 }
 function HomeContent() {
-  const { setHtml, setCss, setJs } = useScriptsStore((state) => state);
+  const { setHtml, setCss, setJs, addImage } = useScriptsStore(
+    (state) => state
+  );
   const [imageProps, setImageProps] = useState<ImageProps>();
   const router = useRouter();
   const handleUploadComplete = (url: string, width: number, height: number) => {
     setImageProps({ imageUrl: url, width, height });
   };
+  const [isLoading, setIsLoading] = useState(false);
   const handleGenerateWebsite = async () => {
+    setIsLoading(true);
     const res = await fetch("/api/generate-website", {
       method: "POST",
       headers: {
@@ -38,6 +43,9 @@ function HomeContent() {
     });
     const data = await res.json();
     const parse = generateWebsiteOutPutSchema.parse(data.object);
+    if (imageProps?.imageUrl) {
+      addImage(imageProps?.imageUrl);
+    }
     if (parse) {
       setHtml(parse.html);
       setCss(parse.css);
@@ -47,6 +55,29 @@ function HomeContent() {
       toast.error("Something went wrong");
     }
   };
+
+  function handleStartWithEmptyTemplate() {
+    setHtml(indexHtml);
+    setCss("");
+    setJs("");
+    router.push("/dev?tab=preview");
+  }
+  let buttonText = <> Generate Website 🚀 </>;
+  if (isLoading) {
+    buttonText = (
+      <>
+        <img
+          src={
+            "https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif"
+          }
+          alt=""
+          className="w-4 h-4"
+        />
+        <span>Generating Code</span>
+      </>
+    );
+  }
+
   return (
     <main className="h-[calc(100vh-3rem)]">
       <section className="w-full h-full container mx-auto flex justify-center items-center">
@@ -74,7 +105,14 @@ function HomeContent() {
             disabled={!imageProps?.imageUrl}
             onClick={handleGenerateWebsite}
           >
-            Generate Website 🚀
+            {buttonText}
+          </Button>
+          <Button
+            className="w-full max-w-[400px] font-medium py-3 select-none"
+            onClick={handleStartWithEmptyTemplate}
+            variant="outline"
+          >
+            Start with empty template
           </Button>
           <div className="flex items-center gap-2 mt-6">
             <img
