@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { inconsolata, libreBaskerville } from "@/constants/fonts";
 import Link from "next/link";
 import { Githubsvg, LinkedinSvg, Xsvg } from "@/components/svg/editor-buttons";
-import { indexHtml } from "@/constants/html";
+import { indexCss, indexHtml } from "@/constants/code";
 
 interface ImageProps {
   imageUrl: string;
@@ -58,7 +58,7 @@ function HomeContent() {
 
   function handleStartWithEmptyTemplate() {
     setHtml(indexHtml);
-    setCss("");
+    setCss(indexCss);
     setJs("");
     router.push("/dev?tab=preview");
   }

@@ -7,7 +7,7 @@ import DiffEditorWrapper from "./DiffEditorExample";
 import { cn } from "@/lib/utils";
 import { deleteLines, pasteAtLine } from "@/lib/editor-paste-delete";
 import { useCallback } from "react";
-import { indexHtml } from "@/constants/html";
+import { indexHtml } from "@/constants/code";
 const Html = () => {
   const { theme } = useTheme();
   const {

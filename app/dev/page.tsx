@@ -23,6 +23,7 @@ import FontChange from "@/components/editor/font-change";
 import ChatComponent from "@/components/chat/chat-component";
 import ImagesTab from "@/components/editor/images-tab";
 import { Suspense } from "react";
+import DeployButton from "@/components/buttons/deploy-button";
 
 function HomeContent() {
   const [tab, setTab] = useQueryState<Tab>("tab", {
@@ -67,7 +68,10 @@ function HomeContent() {
                   onClick={() => setTab("images")}
                 />
               </main>
-              <FontChange />
+              <main className="flex gap-2">
+                <FontChange />
+                <DeployButton />
+              </main>
             </section>
             <section className="h-full overflow-scroll">
               {tab === "html" && <Html />}
