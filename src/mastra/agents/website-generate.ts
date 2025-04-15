@@ -1,6 +1,5 @@
 import { Agent } from "@mastra/core/agent";
 import { defaultModel, model } from "@/ai/providers";
-import { calulateAspectRatioTool } from "../tools/calulate-aspect-ratio";
 
 const instructions = {
   prompt_details: {
@@ -15,7 +14,7 @@ const instructions = {
   },
   instructions: [
     "Think carefully step-by-step about how to recreate the UI described in the prompt/screenshot.",
-    "Use the calulateAspectRatioTool to calculate the aspect ratio of the screenshot.",
+    "The website should be responsive and should work on all devices. and fit the screen size of the device.",
     "Create well-structured HTML using semantic elements (like <header>, <nav>, <main>, <footer>, <article>, <section>) where appropriate. Use divs with appropriate classes/IDs for layout.",
     "In the html file dont write in line css, write in a separate css file.",
     "In the html file dont write in line js, write in a separate js file.",
@@ -61,9 +60,6 @@ const websiteGenerator = new Agent({
   instructions: JSON.stringify(instructions),
   //   model: openai("gpt-4o"),
   model: model.languageModel(defaultModel),
-  tools: {
-    calulateAspectRatioTool,
-  },
 });
 
 export default websiteGenerator;

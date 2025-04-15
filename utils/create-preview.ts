@@ -1,14 +1,12 @@
 import { ScriptsState } from "@/stores/scripts";
-import { resetCss } from "./reset-css";
+import { killIndent } from "./kill-indent";
 
 const consoleCaptureScript = `
 <script>
-  // Override console methods
   const consoleMethods = ['log', 'error', 'warn', 'info', 'debug'];
   consoleMethods.forEach((method) => {
     const original = console[method];
     console[method] = (...args) => {
-      // Send messages to parent
       window.parent.postMessage({
         type: 'CONSOLE',
         level: method,
@@ -40,61 +38,40 @@ export const createDocument = ({
   html,
   css,
   js,
-}: Pick<ScriptsState, "html" | "css" | "js">): string => {
-  // Check if the HTML is a full document
-  if (isFullHtmlDocument(html)) {
-    // If it's a full HTML document, inject our console capture script and CSS
-    const headEndIndex = html.indexOf("</head>");
-    if (headEndIndex !== -1) {
-      // Insert our styles and console capture script before the closing head tag
-      const beforeHeadEnd = html.slice(0, headEndIndex);
-      const afterHeadEnd = html.slice(headEndIndex);
-      return `${beforeHeadEnd}
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..800&display=swap');
-          * {
-            font-family: 'Inter', sans-serif;
-          }
-          ${resetCss}
-          ${css}
-        </style>
-        ${consoleCaptureScript}
-        ${afterHeadEnd}
-        <script>
-          try {
-            ${js}
-          } catch (error) {
-            console.error(error);
-          }
-        </script>`;
-    }
-  }
+}: Pick<ScriptsState, "html" | "css" | "js">) => {
+  const headEndIndex = html.indexOf("</head>");
+  if (headEndIndex === -1) return html; // fallback if no </head> found
 
-  // If not a full HTML document, use the original template
-  return `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..800&display=swap');
-    * {
-      font-family: 'Inter', sans-serif;
-    }
-    ${resetCss}
-    ${css}
-    </style>
-    ${consoleCaptureScript}
-  </head>
-  <body>
-    ${html}
-    <script>
-      try {
-        ${js}
-      } catch (error) {
-        console.error(error);
-      }
-    </script>
-  </body>
-</html>`;
+  const beforeHeadEnd = html.slice(0, headEndIndex);
+  const afterHeadEnd = html.slice(headEndIndex);
+
+  const styleBlock = `
+      <style>
+        ${css}
+      </style>`;
+
+  const mainScriptBlock = `
+      <script>
+        try {
+          ${js}
+        } catch (error) {
+          console.error(error);
+        }
+      </script>`;
+
+  // Insert styles + capture script into head
+  const htmlWithHeadAssets = `${beforeHeadEnd}${styleBlock}${consoleCaptureScript}${afterHeadEnd}`;
+
+  // Insert main script before </body>
+  const bodyEndIndex = htmlWithHeadAssets.indexOf("</body>");
+  if (bodyEndIndex === -1) return htmlWithHeadAssets; // fallback
+
+  const beforeBodyEnd = htmlWithHeadAssets.slice(0, bodyEndIndex);
+  const afterBodyEnd = htmlWithHeadAssets.slice(bodyEndIndex);
+
+  const finalHTML = `${beforeBodyEnd}${mainScriptBlock}${afterBodyEnd}`;
+  console.log(killIndent(finalHTML));
+  return killIndent(finalHTML);
 };
 export const createFullHtml = ({
   html,

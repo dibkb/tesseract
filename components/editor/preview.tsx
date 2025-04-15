@@ -24,6 +24,7 @@ const Preview = ({ console }: { console?: boolean }) => {
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, [updateLogs]);
+  const srcDoc = createDocument({ html, css, js });
   if (console) {
     return (
       <ResizablePanelGroup direction="horizontal">
@@ -34,7 +35,7 @@ const Preview = ({ console }: { console?: boolean }) => {
             sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation"
             title="Website Preview"
             referrerPolicy="no-referrer"
-            srcDoc={createDocument({ html, css, js })}
+            srcDoc={srcDoc}
           />{" "}
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -51,7 +52,7 @@ const Preview = ({ console }: { console?: boolean }) => {
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation allow-modals"
         title="Website Preview"
         referrerPolicy="no-referrer"
-        srcDoc={createDocument({ html, css, js })}
+        srcDoc={srcDoc}
       />
     );
   }

@@ -43,6 +43,7 @@ export async function POST(req: Request) {
       output: generateWebsiteOutPutSchema,
     }
   );
+  console.log(result);
 
   return new Response(JSON.stringify(result), {
     headers: { "Content-Type": "application/json" },
