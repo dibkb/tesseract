@@ -45,23 +45,36 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const image = formData.get("image");
 
-    if (!image || !(image instanceof File)) {
-      return NextResponse.json(
-        { error: "No image provided or invalid file" },
-        { status: 400 }
-      );
+    if (!image) {
+      return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
-    // Convert the image to buffer
-    const bytes = await image.arrayBuffer();
+    // Use a more specific type for handling formData uploads
+    interface FormDataFile {
+      arrayBuffer(): Promise<ArrayBuffer>;
+      name?: string;
+      type?: string;
+      size?: number;
+    }
+
+    // Get file data regardless of whether it's a File instance or not
+    const fileImage = image as FormDataFile;
+    const bytes = await fileImage.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const fileType = fileImage.type || "application/octet-stream";
+
+    console.log("File info:", {
+      name: fileImage.name,
+      type: fileType,
+      size: buffer.length,
+    });
 
     // Upload to S3
     const uploadParams = {
       Bucket: bucketName,
       Key: generateFileName(),
       Body: buffer,
-      ContentType: image.type,
+      ContentType: fileType,
     };
     console.log("uploadParams", uploadParams);
     await s3Client.send(new PutObjectCommand(uploadParams));
