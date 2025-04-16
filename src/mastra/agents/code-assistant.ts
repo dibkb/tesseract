@@ -1,6 +1,6 @@
 import { Agent } from "@mastra/core/agent";
 import { analyzeCodeTool } from "../tools/analyze-tool";
-import { codeAssistantModel, defaultModel, model } from "@/ai/providers";
+import { codeAssistantModel, model } from "@/ai/providers";
 // import { Memory } from "@mastra/memory";
 // import { MastraMemory } from "@mastra/core/memory";
 const instructions = `You are an expert AI code assistant specializing in HTML, CSS, and JavaScript.
