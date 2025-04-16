@@ -5,6 +5,7 @@ import {
   extractReasoningMiddleware,
   wrapLanguageModel,
 } from "ai";
+import { openai } from "@ai-sdk/openai";
 
 const languageModels = {
   "meta-llama/llama-4-scout-17b-16e-instruct": groq(
@@ -24,6 +25,8 @@ const languageModels = {
   "gemma2-9b-it": groq("gemma2-9b-it"),
   "qwen-2.5-coder-32b": groq("qwen-2.5-coder-32b"),
   "claude-3-7-sonnet-latest": anthropic("claude-3-7-sonnet-latest"),
+  "claude-3-haiku-20240307": anthropic("claude-3-haiku-20240307"),
+  "openai/gpt-4o-mini": openai("gpt-4o-mini"),
 };
 
 export const model = customProvider({
@@ -37,4 +40,5 @@ export const MODELS = Object.keys(languageModels);
 export const defaultModel: modelID =
   "meta-llama/llama-4-maverick-17b-128e-instruct";
 
-export const webSiteGenerationModel: modelID = "claude-3-7-sonnet-latest";
+export const webSiteGenerationModel: modelID = "claude-3-haiku-20240307";
+export const codeAssistantModel: modelID = "openai/gpt-4o-mini";
