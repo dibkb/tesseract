@@ -48,8 +48,6 @@ export async function POST(req: Request) {
         }
       );
 
-      console.log("Generation successful");
-
       return new Response(JSON.stringify(result), {
         headers: { "Content-Type": "application/json" },
       });
