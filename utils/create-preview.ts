@@ -72,7 +72,6 @@ export const createDocument = ({
   const afterBodyEnd = htmlWithHeadAssets.slice(bodyEndIndex);
 
   const finalHTML = `${beforeBodyEnd}${mainScriptBlock}${afterBodyEnd}`;
-  console.log(killIndent(finalHTML));
   return killIndent(finalHTML);
 };
 export const createFullHtml = ({

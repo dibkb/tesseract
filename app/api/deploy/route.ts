@@ -69,7 +69,6 @@ export async function POST(req: Request) {
       deployData: deployData,
     });
   } catch (error) {
-    console.error("Deployment error:", error);
     return NextResponse.json(
       {
         error: "Deployment failed",

@@ -1,4 +1,5 @@
 import { groq } from "@ai-sdk/groq";
+import { anthropic } from "@ai-sdk/anthropic";
 import {
   customProvider,
   extractReasoningMiddleware,
@@ -22,6 +23,7 @@ const languageModels = {
   "llama-3.3-70b-versatile": groq("llama-3.3-70b-versatile"),
   "gemma2-9b-it": groq("gemma2-9b-it"),
   "qwen-2.5-coder-32b": groq("qwen-2.5-coder-32b"),
+  "claude-3-7-sonnet-latest": anthropic("claude-3-7-sonnet-latest"),
 };
 
 export const model = customProvider({
@@ -34,3 +36,5 @@ export const MODELS = Object.keys(languageModels);
 
 export const defaultModel: modelID =
   "meta-llama/llama-4-maverick-17b-128e-instruct";
+
+export const webSiteGenerationModel: modelID = "claude-3-7-sonnet-latest";
