@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     // Resize the image using Sharp
     // Set max width to 1200px while maintaining aspect ratio
     const resizedImageBuffer = await sharp(buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 1080, width: 1920, fit: "contain" })
       .toBuffer();
 
     // Upload to S3
