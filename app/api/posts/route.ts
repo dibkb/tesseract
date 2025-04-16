@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import sharp from "sharp";
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -51,14 +52,19 @@ export async function POST(request: Request) {
     const fileImage = image as FormDataFile;
     const bytes = await fileImage.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const fileType = fileImage.type || "application/octet-stream";
+
+    // Resize the image using Sharp
+    // Set max width to 1200px while maintaining aspect ratio
+    const resizedImageBuffer = await sharp(buffer)
+      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .toBuffer();
 
     // Upload to S3
     const uploadParams = {
       Bucket: bucketName,
       Key: generateFileName(),
-      Body: buffer,
-      ContentType: fileType,
+      Body: resizedImageBuffer,
+      ContentType: fileImage.type || "application/octet-stream",
     };
     await s3Client.send(new PutObjectCommand(uploadParams));
 
