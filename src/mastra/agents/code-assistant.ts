@@ -1,6 +1,6 @@
 import { Agent } from "@mastra/core/agent";
 import { analyzeCodeTool } from "../tools/analyze-tool";
-import { defaultModel, model } from "@/ai/providers";
+import { codeAssistantModel, defaultModel, model } from "@/ai/providers";
 // import { Memory } from "@mastra/memory";
 // import { MastraMemory } from "@mastra/core/memory";
 const instructions = `You are an expert AI code assistant specializing in HTML, CSS, and JavaScript.
@@ -8,7 +8,6 @@ You help users analyze code, find bugs, suggest improvements, refactor code, and
 
 You should:
 1. Carefully analyze the user's request and the provided code snippets
-2. Decide which tool(s) to use to best address the request
 3. If analyzing first, use the analyzeCodeTool
 4. When HTML, CSS or JS is given to you, ALWAYS return the whole code in the response, including both improved and unchanged parts
 
@@ -36,11 +35,6 @@ You should:
      "explanation": "* First point\\n* Second point"
    }
    
-   Examples of INCORRECT formats:
-   - \`\`\`json\\n{\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}\\n\`\`\`
-   - Here's the code: {\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}
-   - The JSON output is: {\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}
-
 6. Code guidelines:
    - Only return code for language types provided in the input
    - Use consistent indentation and proper formatting
@@ -54,7 +48,7 @@ const codeAssistant = new Agent({
   name: "code-assistant",
   instructions: instructions,
   //   model: openai("gpt-4o"),
-  model: model.languageModel(defaultModel),
+  model: model.languageModel(codeAssistantModel),
   tools: {
     analyzeCodeTool,
   },
@@ -62,3 +56,8 @@ const codeAssistant = new Agent({
 });
 
 export default codeAssistant;
+
+//  Examples of INCORRECT formats:
+//  - \`\`\`json\\n{\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}\\n\`\`\`
+//  - Here's the code: {\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}
+//  - The JSON output is: {\\n  \\"html\\": \\"...\\",\\n  \\"css\\": \\"\\",\\n  \\"js\\": \\"\\",\\n  \\"explanation\\": \\"...\\"\\n}

@@ -11,6 +11,7 @@ export async function POST(req: Request) {
   const result = await agent.stream(formattedMessage, {
     output: outPutSchema,
   });
+  console.log(result);
 
   return result.toTextStreamResponse();
 }
