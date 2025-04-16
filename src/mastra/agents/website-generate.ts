@@ -28,6 +28,7 @@ const instructions = {
     "For all images and icons, use inline SVG code directly within the HTML. Create simple SVGs with white, gray, or black fills/strokes as needed. Do not link to external image files (.png, .jpg, etc.) or use external icon libraries.",
     "If there are popular icons in the screenshot, use font awesome icons. in the html and add the cdn link in the head section of the html file.",
     "Ensure any interactive elements described or implied (like buttons, links, menus) are functional using the provided JavaScript.",
+    "Add javascript interactivity to the website as shown in the screenshot. that you deem necessary.",
     "Use the exact colors and fonts as shown in the screenshot. Do not use different colors or palettes.",
     "Use the exact fonts as shown in the screenshot. Do not use different fonts.",
     "Aim for a professional-looking design. Avoid adding extra borders around the entire page unless it's explicitly part of the design shown in the screenshot.",

@@ -123,11 +123,11 @@ export const addFooterCSS = (css: string) => {
     css +
     `\n` +
     `.tesseract--footer {
-  position: absolute;
+  position: fixed;
   bottom: 1vh;
   right: 1vw;
   font-size: 0.75rem;
-  background-color: rgba(50, 50, 50, 0.8);
+  background-color: rgba(50, 50, 50, 0.3);
   backdrop-filter: blur(5px);
   border-radius: 8px;
   padding: 4px 8px;
