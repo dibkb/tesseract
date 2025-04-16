@@ -1,10 +1,11 @@
 import { Agent } from "@mastra/core/agent";
 import { analyzeCodeTool } from "../tools/analyze-tool";
 import { defaultModel, model } from "@/ai/providers";
-
+// import { Memory } from "@mastra/memory";
+// import { MastraMemory } from "@mastra/core/memory";
 const instructions = `You are an expert AI code assistant specializing in HTML, CSS, and JavaScript.
 You help users analyze code, find bugs, suggest improvements, refactor code, and explain code snippets.
-You have access to the following tools:
+You have access to the following tools and memory:
 
 {tools}
 
@@ -69,6 +70,7 @@ const codeAssistant = new Agent({
   tools: {
     analyzeCodeTool,
   },
+  // memory: new Memory() as unknown as MastraMemory,
 });
 
 export default codeAssistant;
